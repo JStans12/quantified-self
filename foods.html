@@ -7,5 +7,26 @@
 <body>
 
   <script src="main.bundle.js"></script>
+
+  <div id="manage-foods">
+    <h3>Manage Foods</h3>
+    <form>
+      Name <input class="form-input" type="text" name="manage-foods-name">
+      <div id="name-error" class="hidden"></div>
+
+      Calories <input class="form-input" type="text" name="manage-foods-calories">
+      <div id="calorie-error" class="hidden"></div>
+
+      <button class="form-button">Add Food</button>
+    </form>
+  </div>
+
+  <div id="foods">
+    <div id="food-filter" class="filter">
+      Filter by Name<input class="form-input" type="text" name="foods-filter">
+    </div>
+    <table id="foods-table"></table>
+  </div>
+
 </body>
 </html>
