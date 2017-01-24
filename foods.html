@@ -6,18 +6,19 @@
 </head>
 <body>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="main.bundle.js"></script>
 
   <div id="manage-foods">
     <h3>Manage Foods</h3>
-    <form>
-      Name <input class="form-input" type="text" name="manage-foods-name">
+    <form id='add-food-form'>
+      Name <input class="form-input" type="text" name="name">
       <div id="name-error" class="hidden"></div>
 
-      Calories <input class="form-input" type="text" name="manage-foods-calories">
+      Calories <input class="form-input" type="text" name="calories">
       <div id="calorie-error" class="hidden"></div>
 
-      <button class="form-button">Add Food</button>
+      <button id="add-food-button" class="form-button">Add Food</button>
     </form>
   </div>
 
@@ -25,7 +26,10 @@
     <div id="food-filter" class="filter">
       Filter by Name<input class="form-input" type="text" name="foods-filter">
     </div>
-    <table id="foods-table"></table>
+    <table id="foods-table">
+      <th>Name</th><th>Calories</th>
+    </table>
+
   </div>
 
 </body>
