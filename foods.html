@@ -12,21 +12,21 @@
   <div id="manage-foods">
     <h3 id="manage-foods-header">Manage Foods</h3>
     <form id='add-food-form'>
-      <p><b>Name</b></p> <input class="foods-input form-input" type="text" name="name">
+      <p><b>Name</b></p> <input class="fe-input form-input" type="text" name="name">
       <div id="name-error" class="error hidden">Please enter a food name.</div>
 
-      <p><b>Calories</b></p> <input class="foods-input form-input" type="text" name="calories">
+      <p><b>Calories</b></p> <input class="fe-input form-input" type="text" name="calories">
       <div id="calorie-error" class="error hidden">Please enter a calorie count.</div>
       <br>
-      <button id="add-food-button" class="form-button">Add Food</button>
+      <button id="add-food-button" class="add-fe-button form-button">Add Food</button>
     </form>
   </div>
 
-  <div id="foods">
+  <div id="foods" class='fe-table-div'>
     <div id="foods-filter" class="filter">
       <p><b>Filter by Name</b></p> <input class="form-input" type="text" name="foods-filter">
     </div>
-    <table id="foods-table">
+    <table id="foods-table" class="fe-table">
       <th>Name</th><th>Calories</th>
     </table>
 
