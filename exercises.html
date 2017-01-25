@@ -11,15 +11,26 @@
 
   <div id="manage-exercises">
     <h3>Manage Exercises</h3>
-    <form id='add-excercise-form'>
+    <form id='add-exercise-form'>
       Name <input class='form-input' type='text' name='name'>
+      <div id="name-error" class="hidden">Please enter a exercise name.</div>
 
       Calories <input class='form-input' type='text' name='calories'>
+      <div id="calorie-error" class="hidden">Please enter a calorie count.</div>
 
       <button id='add-exercise-button' class='form-button'>Add Exercise</button>
     </form>
   </div>
 
+  <div id='exercises'>
+    <div id='exercise-filter' class='filter'>
+      Filter by Name<input class="form-input" type="text" name="exercise-filter">
+    </div>
+    <table id="foods-table">
+      <th>Name</th><th>Calories</th>
+    </table>
+
+  </div>
 
 </body>
 </html>
