@@ -5,7 +5,32 @@
   <title>Quantified Self - Manage Foods</title>
 </head>
 <body>
-
+  <link rel="stylesheet" href="stylesheet.css" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="main.bundle.js"></script>
+
+  <div id="manage-foods">
+    <h3>Manage Foods</h3>
+    <form id='add-food-form'>
+      Name <input class="form-input" type="text" name="name">
+      <div id="name-error" class="hidden">Please enter a food name.</div>
+
+      Calories <input class="form-input" type="text" name="calories">
+      <div id="calorie-error" class="hidden">Please enter a calorie count.</div>
+
+      <button id="add-food-button" class="form-button">Add Food</button>
+    </form>
+  </div>
+
+  <div id="foods">
+    <div id="food-filter" class="filter">
+      Filter by Name<input class="form-input" type="text" name="foods-filter">
+    </div>
+    <table id="foods-table">
+      <th>Name</th><th>Calories</th>
+    </table>
+
+  </div>
+
 </body>
 </html>
