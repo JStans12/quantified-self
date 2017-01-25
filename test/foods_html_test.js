@@ -56,6 +56,8 @@ test.describe('testing foods.html', function(){
         });
       });
     });
+
+    assert.equal(name.html(), '');
   });
 
   test.it("doesn't allow me to add foods if name is empty", function(){
