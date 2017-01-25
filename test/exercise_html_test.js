@@ -23,14 +23,87 @@ test.describe('testing exercises.html', function(){
     var name = driver.findElement({name: 'name'});
     var calories = driver.findElement({name: 'calories'});
 
-    name.sendKeys('orange');
+    name.sendKeys('running');
     name.getAttribute('value').then(function(value){
-      assert.equal(value, 'orange');
+      assert.equal(value, 'running');
     });
 
     calories.sendKeys(500);
     calories.getAttribute('value').then(function(value){
       assert.equal(value, '500');
+    });
+  });
+
+  test.it("allows me to add a new exercise", function(){
+
+    driver.get('http://localhost:8080/exercises.html')
+
+    var name = driver.findElement({name: 'name'});
+    var calories = driver.findElement({name: 'calories'});
+    var addExerciseButton = driver.findElement({id: 'add-exercise-button'});
+
+
+    name.sendKeys('running');
+    calories.sendKeys('500');
+    addExerciseButton.click()
+    driver.sleep(1000);
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 2);
+
+        rows[1].findElement(webdriver.By.className('exercise-name-cell')).getText().then(function(exerciseName){
+          assert.equal(exerciseName, 'running');
+        });
+      });
+    });
+  });
+
+  test.it("does not add exercise if name is empty", function(){
+
+    driver.get('http://localhost:8080/exercises.html')
+
+    var name = driver.findElement({name: 'name'});
+    var calories = driver.findElement({name: 'calories'});
+    var addExerciseButton = driver.findElement({id: 'add-exercise-button'});
+
+    name.sendKeys('');
+    calories.sendKeys('500');
+    addExerciseButton.click();
+    driver.sleep(1000);
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 1);
+      });
+    });
+
+    driver.findElement({id: 'name-error'}).getText().then(function(error){
+      assert.equal(error, 'Please enter a exercise name.')
+    });
+  });
+
+  test.it("does not add exercise if calories are empty", function(){
+
+    driver.get('http://localhost:8080/exercises.html')
+
+    var name = driver.findElement({name: 'name'});
+    var calories = driver.findElement({name: 'calories'});
+    var addExerciseButton = driver.findElement({id: 'add-exercise-button'});
+
+    name.sendKeys('running');
+    calories.sendKeys('');
+    addExerciseButton.click();
+    driver.sleep(1000);
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 1);
+      });
+    });
+
+    driver.findElement({id: 'calorie-error'}).getText().then(function(error){
+      assert.equal(error, 'Please enter a calorie count.')
     });
   });
 });
