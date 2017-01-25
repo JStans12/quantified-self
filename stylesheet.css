@@ -10,8 +10,16 @@ body {
   margin: 20px;
 }
 
+#manage-exercises {
+  margin: 20px;
+}
+
 #manage-foods-header {
   margin: 10px;
+}
+
+#manage-exercises-header {
+  margin: 10 px;
 }
 
 #add-food-form {
@@ -20,12 +28,18 @@ body {
   font-size: 12px;
 }
 
-.foods-input {
+.fe-input {
   width: 100%;
   height: 20px;
 }
 
-#add-food-button {
+#add-exercise-form {
+  margin: 10px;
+  width: 250px;
+  font-size: 12px;
+}
+
+.add-fe-button {
   margin-top: 6px;
   float: right;
   width: 100px;
@@ -36,7 +50,7 @@ body {
   font-size: 12px;
 }
 
-#add-food-button:hover {
+.add-fe-button:hover {
   background-color: skyblue;
 }
 
@@ -45,34 +59,34 @@ body {
   color: red;
 }
 
-#foods {
+.fe-table-div {
   margin: 40px 20px 20px 20px;
   padding-top: 1px;
   font-size: 12px;
 }
 
-#foods-filter {
+.filter {
   margin: 10px;
   width: 100%;
 }
 
-#foods-filter input {
+.filter input {
   width: 250px;
   height: 20px;
 }
 
-#foods-table {
+.fe-table {
   margin: 10px;
   border-collapse: collapse;
   width: 283px;
 }
 
-#foods-table th {
+.fe-table th {
   background-color: lightgray;
   border: 1px solid black;
 }
 
-#foods-table td {
+.fe-table td {
   padding: 3px;
 }
 
@@ -100,6 +114,20 @@ body {
 .delete-button:hover {
   color: crimson;
 }
+
+.exercise-cell {
+  border: 1px solid black;
+}
+
+.exercise-name-cell {
+  width: 160px;
+}
+
+.exercise-calorie-cell {
+  text-align: right;
+  width: 90px;
+}
+
 
 p {
   margin-bottom: 0px;
