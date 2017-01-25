@@ -10,21 +10,21 @@
   <script src="main.bundle.js"></script>
 
   <div id="manage-foods">
-    <h3>Manage Foods</h3>
+    <h3 id="manage-foods-header">Manage Foods</h3>
     <form id='add-food-form'>
-      Name <input class="form-input" type="text" name="name">
-      <div id="name-error" class="hidden">Please enter a food name.</div>
+      <p><b>Name</b></p> <input class="foods-input form-input" type="text" name="name">
+      <div id="name-error" class="error hidden">Please enter a food name.</div>
 
-      Calories <input class="form-input" type="text" name="calories">
-      <div id="calorie-error" class="hidden">Please enter a calorie count.</div>
-
+      <p><b>Calories</b></p> <input class="foods-input form-input" type="text" name="calories">
+      <div id="calorie-error" class="error hidden">Please enter a calorie count.</div>
+      <br>
       <button id="add-food-button" class="form-button">Add Food</button>
     </form>
   </div>
 
   <div id="foods">
-    <div id="food-filter" class="filter">
-      Filter by Name<input class="form-input" type="text" name="foods-filter">
+    <div id="foods-filter" class="filter">
+      <p><b>Filter by Name</b></p> <input class="form-input" type="text" name="foods-filter">
     </div>
     <table id="foods-table">
       <th>Name</th><th>Calories</th>
