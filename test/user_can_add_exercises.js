@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 var webdriver = require('selenium-webdriver');
 var test = require('selenium-webdriver/testing');
 
-test.describe('testing exercises.html', function(){
+test.describe('adding exercises.html', function(){
   var driver;
   this.timeout(10000);
 
@@ -34,7 +34,7 @@ test.describe('testing exercises.html', function(){
     });
   });
 
-  test.it("allows me to add a new exercise", function(){
+  test.it("allows me to add a new exercise and clears form inputs", function(){
 
     driver.get('http://localhost:8080/exercises.html')
 
@@ -56,6 +56,14 @@ test.describe('testing exercises.html', function(){
           assert.equal(exerciseName, 'running');
         });
       });
+    });
+
+    driver.findElement({name: 'name'}).getText().then(function(nameText){
+      assert.equal(nameText, '');
+    });
+
+    driver.findElement({name: 'calories'}).getText().then(function(calorieText){
+      assert.equal(calorieText, '');
     });
   });
 
