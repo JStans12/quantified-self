@@ -57,13 +57,17 @@ test.describe('adding new foods', function(){
       });
     });
 
+    driver.executeScript('return window.localStorage["foods"]').then(function(storedFoods){
+      assert.equal(storedFoods, '[{"name":"orange","calories":"500"}]')
+    });
+
     driver.findElement({name: 'name'}).getText().then(function(nameText){
       assert.equal(nameText, "");
     });
 
     driver.findElement({name: 'calories'}).getText().then(function(caloriesText){
       assert.equal(caloriesText, "")
-    })
+    });
 
   });
 
