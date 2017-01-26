@@ -24,8 +24,8 @@ test.describe('deleting exercises', function(){
     var calories = driver.findElement({name: 'calories'});
     var addExerciseButton = driver.findElement({id: 'add-exercise-button'});
 
-    name.sendKeys('orange');
-    calories.sendKeys(500);
+    name.sendKeys('running');
+    calories.sendKeys(150);
     addExerciseButton.click();
     driver.sleep(1000);
 
