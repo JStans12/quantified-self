@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 var webdriver = require('selenium-webdriver');
 var test = require('selenium-webdriver/testing');
 
-test.describe('testing foods.html', function(){
+test.describe('adding new foods', function(){
   var driver;
   this.timeout(20000);
 
@@ -34,7 +34,7 @@ test.describe('testing foods.html', function(){
     });
   });
 
-  test.it("allows me add a new food", function(){
+  test.it("allows me add a new food and clears form inputs", function(){
 
     driver.get('http://localhost:8080/foods.html')
 
@@ -57,7 +57,14 @@ test.describe('testing foods.html', function(){
       });
     });
 
-    assert.equal(name.html(), '');
+    driver.findElement({name: 'name'}).getText().then(function(nameText){
+      assert.equal(nameText, "");
+    });
+
+    driver.findElement({name: 'calories'}).getText().then(function(caloriesText){
+      assert.equal(caloriesText, "")
+    })
+
   });
 
   test.it("doesn't allow me to add foods if name is empty", function(){
