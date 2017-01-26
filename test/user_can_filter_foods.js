@@ -47,7 +47,7 @@ test.describe('a user can filter foods', function(){
     driver.findElement({id: 'foods-table'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
 
-      
+      document.querySelector()
 
       });
     });
