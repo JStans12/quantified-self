@@ -16,7 +16,7 @@ test.describe('updating foods', function(){
       driver.quit();
   });
 
-  // TODO MAKE THIS SHIT WORK
+  // TESTING IS FUCKING BULLSHIT
   // test.it("should allow me to update food names", function(){
   //
   //   driver.get('http://localhost:8080/foods.html')
@@ -33,15 +33,12 @@ test.describe('updating foods', function(){
   //   driver.findElement({id: 'foods-table'}).then(function(table){
   //     table.findElements(webdriver.By.css('tr')).then(function(rows){
   //       rows[1].findElement(webdriver.By.className('food-name-cell')).then(function(foodNameCell){
-  //         foodNameCell.click();
-  //         driver.sleep(500);
-  //         foodNameCell.sendKeys('abc')
-  //         name.click();
+  //
   //       });
   //     });
   //   });
   //
-  //   driver.sleep(500)
+  //   driver.sleep(2000)
   //
   //   driver.executeScript('return window.localStorage["foods"]').then(function(storedFoods){
   //     assert.equal(storedFoods, '[]')
