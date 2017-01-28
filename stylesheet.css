@@ -28,15 +28,30 @@ body {
   font-size: 12px;
 }
 
-.fe-input {
-  width: 100%;
-  height: 20px;
-}
 
 #add-exercise-form {
   margin: 10px;
   width: 250px;
   font-size: 12px;
+}
+
+#create-new{
+  float: left;
+}
+
+#add-new {
+  padding-top: 10px;
+}
+
+.fe-input {
+  width: 100%;
+  height: 20px;
+}
+
+.layout {
+  display: inline-table;
+  padding-right: 45px;
+
 }
 
 .add-fe-button {

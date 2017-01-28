@@ -3,9 +3,74 @@
 <head>
   <meta charset="utf-8">
   <title>Quantified Self - Diary</title>
+  <link rel="stylesheet" href="stylesheet.css" type="text/css">
 </head>
 <body>
-
   <script src="main.bundle.js"></script>
+
+  <div id="date-header">
+    <button id="previous">Prv</button><h3>Today's Date</h3><button id="next">nxt</button>
+  </div>
+
+  <div class="layout">
+    <div id="breakfast" >
+      <h4>Breakfast</h4>
+      <table id="breakfast-table" class="fe-table">
+        <th>Name</th><th>Calories</th>
+      </table>
+    </div>
+
+    <div id="lunch">
+      <h4>Lunch</h4>
+      <table id="lunch-table" class="fe-table">
+        <th>Name</th><th>Calories</th>
+      </table>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div id="dinner">
+      <h4>Dinner</h4>
+      <table id="dinner-table" class="fe-table">
+        <th>Name</th><th>Calories</th>
+      </table>
+    </div>
+
+    <div id="snacks">
+      <h4>Snacks</h4>
+      <table id="snacks-table" class="fe-table">
+        <th>Name</th><th>Calories</th>
+      </table>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div id="exercises">
+      <h4>Exercises</h4>
+      <table id="exercises-table" class="fe-table">
+        <th>Name</th><th>Calories</th>
+      </table>
+    </div>
+
+    <div id="totals">
+      <h4>Totals</h4>
+      <table id="totals-table">
+      </table>
+    </div>
+  </div>
+
+  <div id="create-foods">
+    <p>Foods<p>
+      <button id="create-new" class="add-fe-button">Create New</button></br>
+    <div id="add-new">
+      <p>Add Selected To</p>
+      <button id="create-new" class="add-fe-button">Breakfast</button>
+      <button id="create-new" class="add-fe-button">Lunch</button>
+      <button id="create-new" class="add-fe-button">Dinner</button>
+      <button id="create-new" class="add-fe-button">Snacks</button>
+    </div>
+  </div>
+
+
 </body>
 </html>
