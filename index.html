@@ -59,16 +59,46 @@
     </div>
   </div>
 
-  <div id="create-foods">
-    <p>Foods<p>
-      <button id="create-new" class="add-fe-button">Create New</button></br>
-    <div id="add-new">
-      <p>Add Selected To</p>
-      <button id="create-new" class="add-fe-button">Breakfast</button>
-      <button id="create-new" class="add-fe-button">Lunch</button>
-      <button id="create-new" class="add-fe-button">Dinner</button>
-      <button id="create-new" class="add-fe-button">Snacks</button>
+  <div id="create-add-fe" class="layout-fe">
+    <div id="create-foods">
+      <p>Foods<p>
+        <button id="create-new" class="add-fe-button">Create New</button></br>
+      <div id="add-new">
+        <p>Add Selected To</p>
+        <div class="layout btn-pad">
+          <button id="create-new" class="add-fe-button breakfast">Breakfast</button>
+          <button id="create-new" class="add-fe-button lunch">Lunch</button>
+        </div></br>
+        <div class="layout">
+          <button id="create-new" class="add-fe-button dinner">Dinner</button>
+          <button id="create-new" class="add-fe-button snacks">Snacks</button>
+        </div>
+      </div>
+
+        <div id="foods-filter" class="filter">
+          <p><b>Filter by Name</b></p> <input id="food-filter" class="form-input" type="text" name="foods-filter">
+        </div>
+        <table id="foods-table" class="fe-table">
+          <th>Name</th><th>Calories</th>
+        </table>
     </div>
+  </div>
+
+  <div id="create-add-fe" class="layout-fe">
+    <div id="create-exercises">
+      <p>Exercises</p>
+      <div class="layout">
+        <button id="create-new" class="add-fe-button">Craete New</button>
+        <button id="create-new" class="add-fe-button">Add Selected</button>
+      </div>
+    </div>
+
+    <div id='exercises-filter' class='filter'>
+      <p><b>Filter by Name</b></p><input id="exercise-filter" class="form-input" type="text" name="exercises-filter">
+    </div>
+    <table id="exercises-table" class="fe-table">
+      <th>Name</th><th>Calories</th>
+    </table>
   </div>
 
 
