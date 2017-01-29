@@ -117,9 +117,21 @@ body {
   border: 1px solid black;
 }
 
+
 .fe-table td {
   padding: 3px;
 }
+
+.fe-table-diary {
+  background-color: lightgray;
+  border: 1px solid black;
+}
+
+.fe-table-diary tr td {
+  background-color: lightgray;
+  border: 1px solid black;
+}
+
 
 .food-cell {
   border: 1px solid black;
@@ -211,6 +223,15 @@ body {
   text-align: right;
   width: 90px;
 }
+
+.total {
+  text-align: right;
+}
+
+.remaining {
+  text-align: right;
+}
+
 
 
 p {

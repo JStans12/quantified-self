@@ -9,14 +9,16 @@
 <body>
 
   <div id="date-header">
-    <button id="previous">Prv</button><h3>Today's Date</h3><button id="next">nxt</button>
+    <button id="previous">Prv</button><h3 class="date">Today's Date</h3><button id="next">nxt</button>
   </div></br>
 
   <div class="layout">
     <div id="breakfasts" class="fe-table-div" >
       <h4>Breakfast</h4>
       <table id="breakfasts-table" class="fe-table">
-        <th>Name</th><th>Calories</th>
+        <thead><th>Name</th><th>Calories</th></thead>
+        <tfoot class="fe-table-diary"><tr><td>Total Calories</td><td class="total">num</td></tr></tfoot>
+        <tfoot class="fe-table-diary"><tr><td>Remaining Calories</td><td class="remaining">num</td></tr></tfoot>
       </table>
     </div>
 
@@ -24,6 +26,8 @@
       <h4>Lunch</h4>
       <table id="lunches-table" class="fe-table">
         <th>Name</th><th>Calories</th>
+        <tfoot class="fe-table-diary"><tr><td>Total Calories</td><td class="total">num</td></tr></tfoot>
+        <tfoot class="fe-table-diary"><tr><td>Remaining Calories</td><td class="remaining">num</td></tr></tfoot>
       </table>
     </div>
   </div>
@@ -33,6 +37,8 @@
       <h4>Dinner</h4>
       <table id="dinners-table" class="fe-table">
         <th>Name</th><th>Calories</th>
+        <tfoot class="fe-table-diary"><tr><td>Total Calories</td><td class="total">num</td></tr></tfoot>
+        <tfoot class="fe-table-diary"><tr><td>Remaining Calories</td><td class="remaining">num</td></tr></tfoot>
       </table>
     </div>
 
@@ -40,6 +46,8 @@
       <h4>Snacks</h4>
       <table id="snacks-table" class="fe-table">
         <th>Name</th><th>Calories</th>
+        <tfoot class="fe-table-diary"><tr><td>Total Calories</td><td class="total">num</td></tr></tfoot>
+        <tfoot class="fe-table-diary"><tr><td>Remaining Calories</td><td class="remaining">num</td></tr></tfoot>
       </table>
     </div>
   </div></br>
@@ -49,6 +57,8 @@
       <h4>Exercises</h4>
       <table id="exercises-table" class="fe-table">
         <th>Name</th><th>Calories</th>
+        <tfoot class="fe-table-diary"><tr><td>Total Calories</td><td class="total">num</td></tr></tfoot>
+        <tfoot class="fe-table-diary"><tr><td>Remaining Calories</td><td class="remaining">num</td></tr></tfoot>
       </table>
     </div>
 
