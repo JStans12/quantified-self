@@ -47,6 +47,7 @@
 	/* WEBPACK VAR INJECTION */(function($) {var jQuery = __webpack_require__(1);
 	window.$ = jQuery;
 	var exercise = __webpack_require__(2);
+	var exerciseTable = __webpack_require__(3);
 
 	function populateExercises() {
 	  var currentExercises = localStorage.getItem('exercises');
@@ -54,14 +55,9 @@
 	    var currentExercisesJSON = JSON.parse(currentExercises);
 	    for (var i = 0; i < currentExercisesJSON.length; i++) {
 	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories']);
-	      appendToExercises(exerciseItem);
+	      exerciseTable.appendTo(exerciseItem);
 	    }
 	  }
-	}
-
-	function appendToExercises(exerciseItem) {
-	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
-	  $('#exercises-table tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
 	}
 
 	function clearExerciseForm() {
@@ -93,35 +89,6 @@
 	  $('#calorie-error').addClass('hidden');
 	}
 
-	function filterExercises() {
-	  var input = document.getElementById('exercise-filter');
-	  var filter = input.value.toUpperCase();
-	  var table = document.getElementById('exercises-table');
-	  var tr = table.getElementsByTagName("tr");
-
-	  for (i = 0; i < tr.length; i++) {
-	    td = tr[i].getElementsByTagName("td")[0];
-	    if (td) {
-	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-	        tr[i].style.display = "";
-	      } else {
-	        tr[i].style.display = "none";
-	      }
-	    }
-	  }
-	}
-
-	function updateCell(cell, originalContent, newContent) {
-	  if (cell.hasClass('exercise-name-cell')) {
-	    var exerciseItem = exercise.find(originalContent);
-	    exerciseItem.update('name', newContent);
-	  } else if (cell.hasClass('exercise-calorie-cell')) {
-	    var exerciseName = cell.siblings('.exercise-name-cell').html();
-	    var exerciseItem = exercise.find(exerciseName);
-	    exerciseItem.update('calories', newContent);
-	  }
-	}
-
 	$(document).ready(function () {
 	  populateExercises();
 
@@ -137,7 +104,7 @@
 	    } else {
 	      exerciseItem = new exercise(name, calories);
 	      exerciseItem.store();
-	      appendToExercises(exerciseItem);
+	      exerciseTable.appendTo(exerciseItem);
 	      clearExerciseForm();
 	      removeErrors();
 	    }
@@ -150,7 +117,7 @@
 	  });
 
 	  $('#exercise-filter').keyup(function () {
-	    filterExercises();
+	    exerciseTable.filter();
 	  });
 
 	  $('#exercises-table').on('click', '.exercise-cell', function (e) {
@@ -169,7 +136,7 @@
 	      if (e.which == 13 || e.type == 'blur') {
 	        var newContent = $(this).val();
 	        $(this).parent().text(newContent);
-	        updateCell(cell, originalContent, newContent);
+	        exerciseTable.updateCell(cell, originalContent, newContent);
 	      }
 	    });
 	  });
@@ -10449,6 +10416,55 @@
 	}
 
 	module.exports = Exercise;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {var exercise = __webpack_require__(2);
+	var ExerciseTable = function () {};
+
+	ExerciseTable.appendTo = function (exerciseItem) {
+	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
+	  $('#exercises-table tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
+	};
+
+	ExerciseTable.appendToDiary = function (exerciseItem) {
+	  var checkBox = '<input type="checkbox" name="exercise" id="checkbox-id">';
+	  $('#exercises-table-check tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	};
+
+	ExerciseTable.filter = function () {
+	  var input = document.getElementById('exercise-filter');
+	  var filter = input.value.toUpperCase();
+	  var table = document.getElementById('exercises-table');
+	  var tr = table.getElementsByTagName("tr");
+
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[0];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }
+	  }
+	};
+
+	ExerciseTable.updateCell = function (cell, originalContent, newContent) {
+	  if (cell.hasClass('exercise-name-cell')) {
+	    var exerciseItem = exercise.find(originalContent);
+	    exerciseItem.update('name', newContent);
+	  } else if (cell.hasClass('exercise-calorie-cell')) {
+	    var exerciseName = cell.siblings('.exercise-name-cell').html();
+	    var exerciseItem = exercise.find(exerciseName);
+	    exerciseItem.update('calories', newContent);
+	  }
+	};
+
+	module.exports = ExerciseTable;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }
 /******/ ]);

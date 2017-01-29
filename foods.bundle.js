@@ -46,8 +46,8 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {var jQuery = __webpack_require__(1);
 	window.$ = jQuery;
-	var food = __webpack_require__(3);
-	var FoodsTable = __webpack_require__(4);
+	var food = __webpack_require__(4);
+	var FoodsTable = __webpack_require__(5);
 	foodsTable = new FoodsTable('food');
 
 	function populateFoods() {
@@ -10376,7 +10376,8 @@
 
 /***/ },
 /* 2 */,
-/* 3 */
+/* 3 */,
+/* 4 */
 /***/ function(module, exports) {
 
 	var Food = function (name, calories) {
@@ -10420,10 +10421,10 @@
 	module.exports = Food;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var food = __webpack_require__(3);
+	/* WEBPACK VAR INJECTION */(function($) {var food = __webpack_require__(4);
 	var FoodsTable = function (name) {
 	  this.name = name;
 	};

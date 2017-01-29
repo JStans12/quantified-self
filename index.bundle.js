@@ -46,9 +46,10 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {var jQuery = __webpack_require__(1);
 	window.$ = jQuery;
-	var food = __webpack_require__(3);
+	var food = __webpack_require__(4);
 	var exercise = __webpack_require__(2);
-	var FoodsTable = __webpack_require__(4);
+	var FoodsTable = __webpack_require__(5);
+	var exerciseTable = __webpack_require__(3);
 
 	function populateBreakfasts() {
 	  var foodsTable = new FoodsTable('breakfast');
@@ -70,6 +71,18 @@
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
 	      foodsTable.appendToDiary(foodItem);
+	    }
+	  }
+	}
+
+	function populateExercises() {
+	  var currentExercises = localStorage.getItem('exercises');
+	  if (currentExercises !== null) {
+	    var currentExercisesJSON = JSON.parse(currentExercises);
+	    for (var i = 0; i < currentExercisesJSON.length; i++) {
+	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories']);
+	      exerciseTable.appendTo(exerciseItem);
+	      exerciseTable.appendToDiary(exerciseItem);
 	    }
 	  }
 	}
@@ -115,6 +128,7 @@
 	  populateSnacks();
 	  populateDinners();
 	  populateFoods();
+	  populateExercises();
 
 	  $('#create-new').click(function () {
 	    console.log('shit');
@@ -10398,6 +10412,55 @@
 
 /***/ },
 /* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {var exercise = __webpack_require__(2);
+	var ExerciseTable = function () {};
+
+	ExerciseTable.appendTo = function (exerciseItem) {
+	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
+	  $('#exercises-table tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
+	};
+
+	ExerciseTable.appendToDiary = function (exerciseItem) {
+	  var checkBox = '<input type="checkbox" name="exercise" id="checkbox-id">';
+	  $('#exercises-table-check tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	};
+
+	ExerciseTable.filter = function () {
+	  var input = document.getElementById('exercise-filter');
+	  var filter = input.value.toUpperCase();
+	  var table = document.getElementById('exercises-table');
+	  var tr = table.getElementsByTagName("tr");
+
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[0];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }
+	  }
+	};
+
+	ExerciseTable.updateCell = function (cell, originalContent, newContent) {
+	  if (cell.hasClass('exercise-name-cell')) {
+	    var exerciseItem = exercise.find(originalContent);
+	    exerciseItem.update('name', newContent);
+	  } else if (cell.hasClass('exercise-calorie-cell')) {
+	    var exerciseName = cell.siblings('.exercise-name-cell').html();
+	    var exerciseItem = exercise.find(exerciseName);
+	    exerciseItem.update('calories', newContent);
+	  }
+	};
+
+	module.exports = ExerciseTable;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	var Food = function (name, calories) {
@@ -10441,10 +10504,10 @@
 	module.exports = Food;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var food = __webpack_require__(3);
+	/* WEBPACK VAR INJECTION */(function($) {var food = __webpack_require__(4);
 	var FoodsTable = function (name) {
 	  this.name = name;
 	};
