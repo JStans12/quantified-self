@@ -202,6 +202,31 @@
 	    addToSnack(selected);
 	  });
 
+	  $('#dinners-table').on('click', '.delete-button', function () {
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	  });
+
+	  $('#breakfasts-table').on('click', '.delete-button', function () {
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	  });
+
+	  $('#lunches-table').on('click', '.delete-button', function () {
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	  });
+
+	  $('#snacks-table').on('click', '.delete-button', function () {
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	  });
+
+	  $('#exercises-table').on('click', '.delete-button', function () {
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	  });
+
 	  $('form').submit(function (e) {
 	    e.preventDefault();
 	  });
