@@ -3,6 +3,7 @@ var webpack = require("webpack");
 
 module.exports = {
   entry: {
+    index: "./lib/index.js",
     exercises: "./lib/exercises_index.js",
     foods: "./lib/foods_index.js",
     test: "mocha!./test/index.js"
