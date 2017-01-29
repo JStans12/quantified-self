@@ -32,12 +32,12 @@ test.describe('deleting exercises', function(){
     driver.findElement({id: 'exercises-table'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
         rows[1].findElement(webdriver.By.className('delete-cell')).then(function(deleteButton){
-          deleteButton.click()
+          deleteButton.click();
         });
       });
     });
 
-    driver.sleep(1000)
+    driver.sleep(1000);
 
     driver.findElement({id: 'exercises-table'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
