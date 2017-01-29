@@ -49,22 +49,25 @@
 	var food = __webpack_require__(4);
 	var exercise = __webpack_require__(2);
 	var FoodsTable = __webpack_require__(5);
+	var breakfastTable = new FoodsTable('breakfast');
+	var dinnerTable = new FoodsTable('dinner');
+	var lunchTable = new FoodsTable('lunche');
+	var snackTable = new FoodsTable('snack');
+	var foodsTable = new FoodsTable('food');
 	var exerciseTable = __webpack_require__(3);
 
 	function populateBreakfasts() {
-	  var foodsTable = new FoodsTable('breakfast');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      breakfastTable.appendTo(foodItem);
 	    }
 	  }
 	}
 
 	function populateFoods() {
-	  var foodsTable = new FoodsTable('food');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
@@ -88,50 +91,115 @@
 	}
 
 	function populateDinners() {
-	  var foodsTable = new FoodsTable('dinner');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      dinnerTable.appendTo(foodItem);
 	    }
 	  }
 	}
 
 	function populateLunch() {
-	  var foodsTable = new FoodsTable('lunche');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      lunchTable.appendTo(foodItem);
 	    }
 	  }
 	}
 	function populateSnacks() {
-	  var foodsTable = new FoodsTable('snack');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      snackTable.appendTo(foodItem);
 	    }
 	  }
 	}
 
+	function addToBreakfast(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    breakfastTable.appendTo(foodItem);
+	  });
+	}
+
+	function addToLunch(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    lunchTable.appendTo(foodItem);
+	  });
+	}
+
+	function addToDinner(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    dinnerTable.appendTo(foodItem);
+	  });
+	}
+
+	function addToSnack(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    snackTable.appendTo(foodItem);
+	  });
+	}
+
 	$(document).ready(function () {
-	  populateBreakfasts();
-	  populateLunch();
-	  populateSnacks();
-	  populateDinners();
 	  populateFoods();
 	  populateExercises();
 
-	  $('#create-new').click(function () {
-	    console.log('shit');
+	  $('#create-new-food').click(function () {
+	    window.open('https://jstans12.github.io/quantified-self/foods.html');
+	  });
+
+	  $('#create-new-exercise').click(function () {
+	    window.open('https://jstans12.github.io/quantified-self/exercises.html');
+	  });
+
+	  $('#exercises-filter').keyup(function () {
+	    exerciseTable.filterDiary();
+	  });
+
+	  $('#foods-filter').keyup(function () {
+	    foodsTable.filter();
+	  });
+
+	  $('#add-breakfast').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToBreakfast(selected);
+	  });
+
+	  $('#add-lunch').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToLunch(selected);
+	  });
+
+	  $('#add-dinner').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToDinner(selected);
+	  });
+
+	  $('#add-snack').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToSnack(selected);
 	  });
 
 	  $('form').submit(function (e) {
@@ -10431,6 +10499,24 @@
 	  var input = document.getElementById('exercise-filter');
 	  var filter = input.value.toUpperCase();
 	  var table = document.getElementById('exercises-table');
+	  var tr = table.getElementsByTagName("tr");
+
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("td")[0];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }
+	  }
+	};
+
+	ExerciseTable.filterDiary = function () {
+	  var input = document.getElementById('exercise-filter');
+	  var filter = input.value.toUpperCase();
+	  var table = document.getElementById('exercises-table-check');
 	  var tr = table.getElementsByTagName("tr");
 
 	  for (i = 0; i < tr.length; i++) {
