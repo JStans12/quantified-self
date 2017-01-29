@@ -36,7 +36,11 @@ body {
   font-size: 12px;
 }
 
-#create-new{
+#create-new-food {
+  float: left;
+}
+
+#create-new-exercise {
   float: left;
 }
 

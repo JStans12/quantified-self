@@ -49,22 +49,25 @@
 	var food = __webpack_require__(4);
 	var exercise = __webpack_require__(2);
 	var FoodsTable = __webpack_require__(5);
+	var breakfastTable = new FoodsTable('breakfast');
+	var dinnerTable = new FoodsTable('dinner');
+	var lunchTable = new FoodsTable('lunche');
+	var snackTable = new FoodsTable('snack');
+	var foodsTable = new FoodsTable('food');
 	var exerciseTable = __webpack_require__(3);
 
 	function populateBreakfasts() {
-	  var foodsTable = new FoodsTable('breakfast');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      breakfastTable.appendTo(foodItem);
 	    }
 	  }
 	}
 
 	function populateFoods() {
-	  var foodsTable = new FoodsTable('food');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
@@ -88,36 +91,33 @@
 	}
 
 	function populateDinners() {
-	  var foodsTable = new FoodsTable('dinner');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      dinnerTable.appendTo(foodItem);
 	    }
 	  }
 	}
 
 	function populateLunch() {
-	  var foodsTable = new FoodsTable('lunche');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      lunchTable.appendTo(foodItem);
 	    }
 	  }
 	}
 	function populateSnacks() {
-	  var foodsTable = new FoodsTable('snack');
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
 	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      snackTable.appendTo(foodItem);
 	    }
 	  }
 	}
@@ -130,12 +130,20 @@
 	  populateFoods();
 	  populateExercises();
 
-	  $('#create-new').click(function () {
-	    console.log('shit');
+	  $('#create-new-food').click(function () {
+	    window.open('https://jstans12.github.io/quantified-self/foods.html');
+	  });
+
+	  $('#create-new-exercise').click(function () {
+	    window.open('https://jstans12.github.io/quantified-self/exercises.html');
 	  });
 
 	  $('#exercises-filter').keyup(function () {
 	    exerciseTable.filterDiary();
+	  });
+
+	  $('#foods-filter').keyup(function () {
+	    foodsTable.filter();
 	  });
 
 	  $('form').submit(function (e) {
