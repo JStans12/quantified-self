@@ -4,48 +4,48 @@
   <meta charset="utf-8">
   <title>Quantified Self - Diary</title>
   <link rel="stylesheet" href="stylesheet.css" type="text/css">
+  <script src="index.bundle.js"></script>
 </head>
 <body>
-  <script src="main.bundle.js"></script>
 
   <div id="date-header">
     <button id="previous">Prv</button><h3>Today's Date</h3><button id="next">nxt</button>
-  </div>
+  </div></br>
 
   <div class="layout">
-    <div id="breakfast" >
+    <div id="breakfasts" class="fe-table-div" >
       <h4>Breakfast</h4>
-      <table id="breakfast-table" class="fe-table">
+      <table id="breakfasts-table" class="fe-table">
         <th>Name</th><th>Calories</th>
       </table>
     </div>
 
-    <div id="lunch">
+    <div id="lunches" class="fe-table-div">
       <h4>Lunch</h4>
-      <table id="lunch-table" class="fe-table">
+      <table id="lunches-table" class="fe-table">
         <th>Name</th><th>Calories</th>
       </table>
     </div>
   </div>
 
   <div class="layout">
-    <div id="dinner">
+    <div id="dinners" class="fe-table-div">
       <h4>Dinner</h4>
-      <table id="dinner-table" class="fe-table">
+      <table id="dinners-table" class="fe-table">
         <th>Name</th><th>Calories</th>
       </table>
     </div>
 
-    <div id="snacks">
+    <div id="snacks" class="fe-table-div">
       <h4>Snacks</h4>
       <table id="snacks-table" class="fe-table">
         <th>Name</th><th>Calories</th>
       </table>
     </div>
-  </div>
+  </div></br>
 
   <div class="layout">
-    <div id="exercises">
+    <div id="exercises" class="fe-table-div">
       <h4>Exercises</h4>
       <table id="exercises-table" class="fe-table">
         <th>Name</th><th>Calories</th>
@@ -66,12 +66,12 @@
       <div id="add-new">
         <p>Add Selected To</p>
         <div class="layout btn-pad">
-          <button id="create-new" class="add-fe-button breakfast">Breakfast</button>
-          <button id="create-new" class="add-fe-button lunch">Lunch</button>
+          <button id="add-breakfast" class="add-fe-button breakfast">Breakfast</button>
+          <button id="add-lunch" class="add-fe-button lunch">Lunch</button>
         </div></br>
         <div class="layout">
-          <button id="create-new" class="add-fe-button dinner">Dinner</button>
-          <button id="create-new" class="add-fe-button snacks">Snacks</button>
+          <button id="add-dinner" class="add-fe-button dinner">Dinner</button>
+          <button id="add-snack" class="add-fe-button snacks">Snacks</button>
         </div>
       </div>
 

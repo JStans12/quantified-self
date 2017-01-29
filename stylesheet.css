@@ -2,6 +2,7 @@
   display: none;
 }
 
+
 body {
   font-family: helvetica;
 }
@@ -41,6 +42,18 @@ body {
 
 #add-new {
   padding-top: 10px;
+}
+
+#date-header {
+  display: inline-flex;
+}
+
+#create-add-fe {
+  margin: 10px;
+}
+
+#totals {
+  margin: 10px;
 }
 
 .fe-input {
@@ -116,6 +129,59 @@ body {
   text-align: right;
   width: 90px;
 }
+
+.breakfast-cell {
+  border: 1px solid black;
+}
+
+.breakfast-name-cell {
+  width: 160px;
+}
+
+.breakfast-calorie-cell {
+  text-align: right;
+  width: 90px;
+}
+
+.dinner-cell {
+  border: 1px solid black;
+}
+
+.dinner-name-cell {
+  width: 160px;
+}
+
+.dinner-calorie-cell {
+  text-align: right;
+  width: 90px;
+}
+
+.lunche-cell {
+  border: 1px solid black;
+}
+
+.lunche-name-cell {
+  width: 160px;
+}
+
+.lunche-calorie-cell {
+  text-align: right;
+  width: 90px;
+}
+
+.snack-cell {
+  border: 1px solid black;
+}
+
+.snack-name-cell {
+  width: 160px;
+}
+
+.snack-calorie-cell {
+  text-align: right;
+  width: 90px;
+}
+
 
 .delete-button {
   border: none;
