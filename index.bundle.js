@@ -122,11 +122,35 @@
 	  }
 	}
 
+	function addToBreakfast(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    breakfastTable.appendTo(foodItem);
+	  });
+	}
+
+	function addToLunch(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    lunchTable.appendTo(foodItem);
+	  });
+	}
+
+	function addToDinner(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    dinnerTable.appendTo(foodItem);
+	  });
+	}
+
+	function addToSnack(foods) {
+	  $.each(foods, function (index, item) {
+	    foodItem = food.find(item);
+	    snackTable.appendTo(foodItem);
+	  });
+	}
+
 	$(document).ready(function () {
-	  populateBreakfasts();
-	  populateLunch();
-	  populateSnacks();
-	  populateDinners();
 	  populateFoods();
 	  populateExercises();
 
@@ -144,6 +168,38 @@
 
 	  $('#foods-filter').keyup(function () {
 	    foodsTable.filter();
+	  });
+
+	  $('#add-breakfast').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToBreakfast(selected);
+	  });
+
+	  $('#add-lunch').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToLunch(selected);
+	  });
+
+	  $('#add-dinner').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToDinner(selected);
+	  });
+
+	  $('#add-snack').click(function () {
+	    var selected = [];
+	    $('#foods-table tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	    });
+	    addToSnack(selected);
 	  });
 
 	  $('form').submit(function (e) {
