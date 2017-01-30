@@ -84,7 +84,6 @@
 	    var currentExercisesJSON = JSON.parse(currentExercises);
 	    for (var i = 0; i < currentExercisesJSON.length; i++) {
 	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories']);
-	      exerciseTable.appendTo(exerciseItem);
 	      exerciseTable.appendToDiary(exerciseItem);
 	    }
 	  }
@@ -150,6 +149,28 @@
 	  });
 	}
 
+	function addToExercises(exercises) {
+	  $.each(exercises, function (index, item) {
+	    foodItem = exercise.find(item);
+	    exerciseTable.appendTo(foodItem);
+	  });
+	}
+
+	function populateTotals(sum, id) {
+	  $('#breakfasts-table .breakfast-total').append(sum);
+	};
+
+	function sumTotals(id) {
+	  // var table = document.querySelector('#breakfasts-table');
+	  var rows = document.getElementById(id).getElementsByTagName('tr');
+	  var sum = 0;
+
+	  for (var i = 1; i < rows.length - 2; i++) {
+	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
+	  };
+	  populateTotals(sum, id);
+	};
+
 	$(document).ready(function () {
 	  populateFoods();
 	  populateExercises();
@@ -171,20 +192,23 @@
 	  });
 
 	  $('#add-breakfast').click(function () {
+	    var id = "breakfasts-table";
 	    var selected = [];
 	    $('#foods-table tr input:checked').each(function () {
 	      selected.push($(this).parent().siblings('.food-name-cell').text());
 	    });
 	    addToBreakfast(selected);
+	    sumTotals(id);
 	  });
 
-	  $('#add-lunch').click(function () {
-	    var selected = [];
-	    $('#foods-table tr input:checked').each(function () {
-	      selected.push($(this).parent().siblings('.food-name-cell').text());
-	    });
-	    addToLunch(selected);
-	  });
+	  // $('#add-lunch').click(function(){
+	  //   var selected = [];
+	  //   $('#foods-table tr input:checked').each(function() {
+	  //     selected.push($(this).parent().siblings('.food-name-cell').text());
+	  //   });
+	  //   addToLunch(selected);
+	  //   sumTotals();
+	  // });
 
 	  $('#add-dinner').click(function () {
 	    var selected = [];
@@ -225,6 +249,14 @@
 	  $('#exercises-table').on('click', '.delete-button', function () {
 	    var name = $(this).parent().siblings('.food-name-cell').html();
 	    $(this).parents('tr').remove();
+	  });
+
+	  $('#add-exercise').click(function () {
+	    var selected = [];
+	    $('#exercises-table-check tr input:checked').each(function () {
+	      selected.push($(this).parent().siblings('.exercise-name-cell').text());
+	    });
+	    addToExercises(selected);
 	  });
 
 	  $('form').submit(function (e) {
