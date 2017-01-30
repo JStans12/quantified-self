@@ -174,7 +174,6 @@
 	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
 	  };
 	  populateTotals(sum, tag);
-	  // populateRemainingCalories(sum, tag);
 	};
 
 	$(document).ready(function () {
