@@ -46,7 +46,7 @@ test.describe('deleting exercises', function(){
     });
 
     driver.executeScript('return window.localStorage["exercises"]').then(function(storedFoods){
-      assert.equal(storedFoods, '[]');
+      assert.equal(storedFoods, '[{"id":1,"name":"running","calories":"150","display":"off"}]')
     });
   });
 });
