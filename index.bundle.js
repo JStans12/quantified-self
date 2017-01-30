@@ -166,7 +166,7 @@
 
 	  for (var i = 1; i < rows.length - 2; i++) {
 	    if (foodItem.display == "on") {
-	      sum += parseFloat(rows[i].childNodes[0].firstChild.data);
+	      sum += parseFloat(rows[i].childNodes[1].firstChild.data);
 	    }
 	  };
 	  populateTotals(sum, tag);
@@ -232,29 +232,32 @@
 	    sumTotals(tag);
 	  });
 
-	  $('.fe-table').on('click', '.delete-button', function () {
+	  $('#dinners-table').on('click', '.delete-button', function () {
 	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
 	    sumTotals(`#${tag}`);
 	  });
 
-	  $('#dinners-table').on('click', '.delete-button', function () {
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    $(this).parents('tr').remove();
-	  });
-
 	  $('#breakfasts-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
 	    var name = $(this).parent().siblings('.food-name-cell').html();
 	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
 	  });
 
 	  $('#lunches-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
 	    var name = $(this).parent().siblings('.food-name-cell').html();
 	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
 	  });
 
 	  $('#snacks-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
 	    var name = $(this).parent().siblings('.food-name-cell').html();
 	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
 	  });
 
 	  $('#exercises-table').on('click', '.delete-button', function () {
