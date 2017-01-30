@@ -20,7 +20,7 @@ test.describe('adding new foods', function(){
 
     driver.get('http://localhost:8080')
 
-    var data = JSON.stringify([{name:"running",calories:"4"},{name:"jumping",calories:"2"},{name:"balling out",calories:"4"}])
+    var data = JSON.stringify([{id:"1",name:"running",calories:"4"},{id:"2",name:"jumping",calories:"2"},{id:"3",name:"balling out",calories:"4"}])
 
     driver.executeScript("window.localStorage.setItem('exercises', '" + data + "');");
 

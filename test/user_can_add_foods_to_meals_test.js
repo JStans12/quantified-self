@@ -20,7 +20,7 @@ test.describe('adding new foods', function(){
 
     driver.get('http://localhost:8080')
 
-    var data = JSON.stringify([{name:"orange",calories:"4"},{name:"banana",calories:"2"},{name:"apple",calories:"4"}])
+    var data = JSON.stringify([{id: "1",name:"orange",calories:"4"},{id:"2",name:"banana",calories:"2"},{id:"3",name:"apple",calories:"4"}])
 
     driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
 
@@ -53,7 +53,7 @@ test.describe('adding new foods', function(){
 
     driver.get('http://localhost:8080')
 
-    var data = JSON.stringify([{name:"orange",calories:"4"},{name:"banana",calories:"2"},{name:"apple",calories:"4"}])
+    var data = JSON.stringify([{id: "1",name:"orange",calories:"4"},{id:"2",name:"banana",calories:"2"},{id:"3",name:"apple",calories:"4"}])
 
     driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
 
@@ -86,7 +86,7 @@ test.describe('adding new foods', function(){
 
     driver.get('http://localhost:8080')
 
-    var data = JSON.stringify([{name:"orange",calories:"4"},{name:"banana",calories:"2"},{name:"apple",calories:"4"}])
+    var data = JSON.stringify([{id: "1",name:"orange",calories:"4"},{id:"2",name:"banana",calories:"2"},{id:"3",name:"apple",calories:"4"}])
 
     driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
 
@@ -119,7 +119,7 @@ test.describe('adding new foods', function(){
 
     driver.get('http://localhost:8080')
 
-    var data = JSON.stringify([{name:"orange",calories:"4"},{name:"banana",calories:"2"},{name:"apple",calories:"4"}])
+    var data = JSON.stringify([{id: "1",name:"orange",calories:"4"},{id:"2",name:"banana",calories:"2"},{id:"3",name:"apple",calories:"4"}])
 
     driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
 
