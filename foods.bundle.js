@@ -55,8 +55,10 @@
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
-	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
-	      foodsTable.appendTo(foodItem);
+	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories'], currentFoodsJSON[i]['id'], currentFoodsJSON[i]['display']);
+	      if (foodItem.display == "on") {
+	        foodsTable.appendTo(foodItem);
+	      }
 	    }
 	  }
 	}
@@ -74,15 +76,9 @@
 	  $('#calorie-error').removeClass('hidden');
 	}
 
-	function deleteFoodFromStorage(name) {
-	  var currentFoods = localStorage.getItem('foods');
-	  var currentFoodsJSON = JSON.parse(currentFoods);
-	  for (var i = 0; i < currentFoodsJSON.length; i++) {
-	    if (currentFoodsJSON[i]['name'] === name) {
-	      currentFoodsJSON.splice(i, 1);
-	    }
-	  }
-	  localStorage.setItem('foods', JSON.stringify(currentFoodsJSON));
+	function removeFoodFromList(foodId) {
+	  foodItem = food.find(foodId);
+	  foodItem.turnOff();
 	}
 
 	function removeErrors() {
@@ -103,7 +99,7 @@
 	      removeErrors();
 	      caloriesError();
 	    } else {
-	      foodItem = new food(name, calories);
+	      foodItem = new food(name, calories, food.nextId(), 'on');
 	      foodItem.store();
 	      foodsTable.appendTo(foodItem);
 	      clearFoodForm();
@@ -112,8 +108,8 @@
 	  });
 
 	  $('#foods-table').on('click', '.delete-button', function () {
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    deleteFoodFromStorage(name);
+	    var foodId = $(this).parents('tr').data('food-id');
+	    removeFoodFromList(foodId);
 	    $(this).parents('tr').remove();
 	  });
 
@@ -123,6 +119,7 @@
 
 	  $('#foods-table').on('click', '.food-cell', function (e) {
 	    var cell = $(this);
+	    var foodId = cell.parents('tr').data('food-id');
 
 	    if (e.target != document.activeElement) {
 	      var originalContent = $(this).text();
@@ -137,7 +134,7 @@
 	      if (e.which == 13 || e.type == 'blur') {
 	        var newContent = $(this).val();
 	        $(this).parent().text(newContent);
-	        foodsTable.updateCell(cell, originalContent, newContent);
+	        foodsTable.updateCell(cell, foodId, originalContent, newContent);
 	      }
 	    });
 	  });
@@ -10380,32 +10377,53 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	var Food = function (name, calories) {
+	var Food = function (name, calories, id, display) {
 	  this.name = name;
 	  this.calories = calories;
+	  this.id = id;
+	  this.display = display;
+	};
+
+	Food.nextId = function () {
+	  var currentFoods = all();
+	  if (currentFoods.length != 0) {
+	    return currentFoods[currentFoods.length - 1]['id'] += 1;
+	  } else {
+	    return 1;
+	  }
 	};
 
 	Food.prototype.store = function () {
 	  var currentFoods = all();
-	  currentFoods.push({ name: this.name, calories: this.calories });
+	  currentFoods.push({ id: this.id, name: this.name, calories: this.calories, display: this.display });
 	  localStorage.setItem('foods', JSON.stringify(currentFoods));
 	};
 
 	Food.prototype.update = function (attribute, newValue) {
 	  var currentFoods = all();
 	  for (var i = 0; i < currentFoods.length; i++) {
-	    if (currentFoods[i]['name'] == this.name) {
+	    if (currentFoods[i]['id'] == this.id) {
 	      currentFoods[i][attribute] = newValue;
 	    }
 	  }
 	  localStorage.setItem('foods', JSON.stringify(currentFoods));
 	};
 
-	Food.find = function (checkName) {
+	Food.prototype.turnOff = function () {
 	  var currentFoods = all();
 	  for (var i = 0; i < currentFoods.length; i++) {
-	    if (currentFoods[i]['name'] == checkName) {
-	      return new Food(currentFoods[i]['name'], currentFoods[i]['calories']);
+	    if (currentFoods[i]['id'] == this.id) {
+	      currentFoods[i]['display'] = 'off';
+	    }
+	  }
+	  localStorage.setItem('foods', JSON.stringify(currentFoods));
+	};
+
+	Food.find = function (checkId) {
+	  var currentFoods = all();
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    if (currentFoods[i]['id'] == checkId) {
+	      return new Food(currentFoods[i]['name'], currentFoods[i]['calories'], currentFoods[i]['id'], currentFoods[i]['display']);
 	    }
 	  }
 	};
@@ -10431,12 +10449,12 @@
 
 	FoodsTable.prototype.appendTo = function (foodItem) {
 	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
-	  $('#' + this.name + 's-table tr:first').after('<tr><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
+	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
 	};
 
 	FoodsTable.prototype.appendToDiary = function (foodItem) {
 	  var checkBox = '<input type="checkbox" name="breakfast" id="checkbox-id">';
-	  $('#' + this.name + 's-table tr:first').after('<tr><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
 	};
 
 	FoodsTable.prototype.filter = function () {
@@ -10457,13 +10475,13 @@
 	  }
 	};
 
-	FoodsTable.prototype.updateCell = function (cell, originalContent, newContent) {
+	FoodsTable.prototype.updateCell = function (cell, foodId, originalContent, newContent) {
 	  if (cell.hasClass('' + this.name + '-name-cell')) {
-	    var foodItem = food.find(originalContent);
+	    var foodItem = food.find(foodId);
 	    foodItem.update('name', newContent);
 	  } else if (cell.hasClass('' + this.name + '-calorie-cell')) {
 	    var foodName = cell.siblings('.' + this.name + '-name-cell').html();
-	    var foodItem = food.find(foodName);
+	    var foodItem = food.find(foodId);
 	    foodItem.update('calories', newContent);
 	  }
 	};

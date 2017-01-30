@@ -72,7 +72,7 @@
 	  if (currentFoods !== null) {
 	    var currentFoodsJSON = JSON.parse(currentFoods);
 	    for (var i = 0; i < currentFoodsJSON.length; i++) {
-	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories']);
+	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories'], currentFoodsJSON[i]['id'], currentFoodsJSON[i]['display']);
 	      foodsTable.appendToDiary(foodItem);
 	    }
 	  }
@@ -83,8 +83,7 @@
 	  if (currentExercises !== null) {
 	    var currentExercisesJSON = JSON.parse(currentExercises);
 	    for (var i = 0; i < currentExercisesJSON.length; i++) {
-	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories']);
-	      exerciseTable.appendTo(exerciseItem);
+	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories'], currentExercisesJSON[i]['id'], currentExercisesJSON[i]['display']);
 	      exerciseTable.appendToDiary(exerciseItem);
 	    }
 	  }
@@ -123,32 +122,56 @@
 	}
 
 	function addToBreakfast(foods) {
-	  $.each(foods, function (index, item) {
-	    foodItem = food.find(item);
+	  $.each(foods, function (index, foodId) {
+	    foodItem = food.find(foodId);
 	    breakfastTable.appendTo(foodItem);
 	  });
 	}
 
 	function addToLunch(foods) {
-	  $.each(foods, function (index, item) {
-	    foodItem = food.find(item);
+	  $.each(foods, function (index, foodId) {
+	    foodItem = food.find(foodId);
 	    lunchTable.appendTo(foodItem);
 	  });
 	}
 
 	function addToDinner(foods) {
-	  $.each(foods, function (index, item) {
-	    foodItem = food.find(item);
+	  $.each(foods, function (index, foodId) {
+	    foodItem = food.find(foodId);
 	    dinnerTable.appendTo(foodItem);
 	  });
 	}
 
 	function addToSnack(foods) {
-	  $.each(foods, function (index, item) {
-	    foodItem = food.find(item);
+	  $.each(foods, function (index, foodId) {
+	    foodItem = food.find(foodId);
 	    snackTable.appendTo(foodItem);
 	  });
 	}
+
+	function addToExercises(exercises) {
+	  $.each(exercises, function (index, exerciseId) {
+	    foodItem = exercise.find(exerciseId);
+	    exerciseTable.appendTo(foodItem);
+	  });
+	}
+
+	function populateTotals(sum, tag) {
+	  $(`${tag} .total`).html(sum);
+	};
+
+	function sumTotals(tag) {
+	  var rows = document.querySelector(tag).getElementsByTagName('tr');
+	  var sum = 0;
+
+	  for (var i = 1; i < rows.length - 2; i++) {
+	    // if(foodItem.display == "on"){
+	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
+	    // }
+	  };
+	  populateTotals(sum, tag);
+	  populateRemainingCalories(sum, tag);
+	};
 
 	$(document).ready(function () {
 	  populateFoods();
@@ -171,35 +194,84 @@
 	  });
 
 	  $('#add-breakfast').click(function () {
+	    var tag = "#breakfasts-table";
 	    var selected = [];
 	    $('#foods-table tr input:checked').each(function () {
-	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	      selected.push($(this).parent().parents('tr').data('food-id'));
 	    });
 	    addToBreakfast(selected);
+	    sumTotals(tag);
 	  });
 
 	  $('#add-lunch').click(function () {
+	    var tag = "#lunches-table";
 	    var selected = [];
 	    $('#foods-table tr input:checked').each(function () {
-	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	      selected.push($(this).parent().parents('tr').data('food-id'));
 	    });
 	    addToLunch(selected);
+	    sumTotals(tag);
 	  });
 
 	  $('#add-dinner').click(function () {
+	    var tag = "#dinners-table";
 	    var selected = [];
 	    $('#foods-table tr input:checked').each(function () {
-	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	      selected.push($(this).parent().parents('tr').data('food-id'));
 	    });
 	    addToDinner(selected);
+	    sumTotals(tag);
 	  });
 
 	  $('#add-snack').click(function () {
+	    var tag = "#snacks-table";
 	    var selected = [];
 	    $('#foods-table tr input:checked').each(function () {
-	      selected.push($(this).parent().siblings('.food-name-cell').text());
+	      selected.push($(this).parent().parents('tr').data('food-id'));
 	    });
 	    addToSnack(selected);
+	    sumTotals(tag);
+	  });
+
+	  $('#dinners-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
+	  });
+
+	  $('#breakfasts-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
+	  });
+
+	  $('#lunches-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
+	  });
+
+	  $('#snacks-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
+	  });
+
+	  $('#exercises-table').on('click', '.delete-button', function () {
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    $(this).parents('tr').remove();
+	  });
+
+	  $('#add-exercise').click(function () {
+	    var selected = [];
+	    $('#exercises-table-check tr input:checked').each(function () {
+	      selected.push($(this).parent().parents('tr').data('exercise-id'));
+	    });
+	    addToExercises(selected);
 	  });
 
 	  $('form').submit(function (e) {
@@ -10438,32 +10510,53 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	var Exercise = function (name, calories) {
+	var Exercise = function (name, calories, id, display) {
 	  this.name = name;
 	  this.calories = calories;
+	  this.id = id;
+	  this.display = display;
+	};
+
+	Exercise.nextId = function () {
+	  var currentExercises = all();
+	  if (currentExercises.length != 0) {
+	    return currentExercises[currentExercises.length - 1]['id'] += 1;
+	  } else {
+	    return 1;
+	  }
 	};
 
 	Exercise.prototype.store = function () {
 	  var currentExercises = all();
-	  currentExercises.push({ name: this.name, calories: this.calories });
+	  currentExercises.push({ id: this.id, name: this.name, calories: this.calories, display: this.display });
 	  localStorage.setItem('exercises', JSON.stringify(currentExercises));
 	};
 
 	Exercise.prototype.update = function (attribute, newValue) {
 	  var currentExercises = all();
 	  for (var i = 0; i < currentExercises.length; i++) {
-	    if (currentExercises[i]['name'] == this.name) {
+	    if (currentExercises[i]['id'] == this.id) {
 	      currentExercises[i][attribute] = newValue;
 	    }
 	  }
 	  localStorage.setItem('exercises', JSON.stringify(currentExercises));
 	};
 
-	Exercise.find = function (checkName) {
+	Exercise.prototype.turnOff = function () {
 	  var currentExercises = all();
 	  for (var i = 0; i < currentExercises.length; i++) {
-	    if (currentExercises[i]['name'] == checkName) {
-	      return new Exercise(currentExercises[i]['name'], currentExercises[i]['calories']);
+	    if (currentExercises[i]['id'] == this.id) {
+	      currentExercises[i]['display'] = 'off';
+	    }
+	  }
+	  localStorage.setItem('exercises', JSON.stringify(currentExercises));
+	};
+
+	Exercise.find = function (checkId) {
+	  var currentExercises = all();
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    if (currentExercises[i]['id'] == checkId) {
+	      return new Exercise(currentExercises[i]['name'], currentExercises[i]['calories'], currentExercises[i]['id'], currentExercises[i]['display']);
 	    }
 	  }
 	};
@@ -10487,12 +10580,12 @@
 
 	ExerciseTable.appendTo = function (exerciseItem) {
 	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
-	  $('#exercises-table tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
+	  $('#exercises-table tr:first').after('<tr data-exercise-id="' + exerciseItem.id + '"><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
 	};
 
 	ExerciseTable.appendToDiary = function (exerciseItem) {
 	  var checkBox = '<input type="checkbox" name="exercise" id="checkbox-id">';
-	  $('#exercises-table-check tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	  $('#exercises-table-check tr:first').after('<tr data-exercise-id="' + exerciseItem.id + '"><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
 	};
 
 	ExerciseTable.filter = function () {
@@ -10531,13 +10624,13 @@
 	  }
 	};
 
-	ExerciseTable.updateCell = function (cell, originalContent, newContent) {
+	ExerciseTable.updateCell = function (cell, exerciseId, originalContent, newContent) {
 	  if (cell.hasClass('exercise-name-cell')) {
-	    var exerciseItem = exercise.find(originalContent);
+	    var exerciseItem = exercise.find(exerciseId);
 	    exerciseItem.update('name', newContent);
 	  } else if (cell.hasClass('exercise-calorie-cell')) {
 	    var exerciseName = cell.siblings('.exercise-name-cell').html();
-	    var exerciseItem = exercise.find(exerciseName);
+	    var exerciseItem = exercise.find(exerciseId);
 	    exerciseItem.update('calories', newContent);
 	  }
 	};
@@ -10549,32 +10642,53 @@
 /* 4 */
 /***/ function(module, exports) {
 
-	var Food = function (name, calories) {
+	var Food = function (name, calories, id, display) {
 	  this.name = name;
 	  this.calories = calories;
+	  this.id = id;
+	  this.display = display;
+	};
+
+	Food.nextId = function () {
+	  var currentFoods = all();
+	  if (currentFoods.length != 0) {
+	    return currentFoods[currentFoods.length - 1]['id'] += 1;
+	  } else {
+	    return 1;
+	  }
 	};
 
 	Food.prototype.store = function () {
 	  var currentFoods = all();
-	  currentFoods.push({ name: this.name, calories: this.calories });
+	  currentFoods.push({ id: this.id, name: this.name, calories: this.calories, display: this.display });
 	  localStorage.setItem('foods', JSON.stringify(currentFoods));
 	};
 
 	Food.prototype.update = function (attribute, newValue) {
 	  var currentFoods = all();
 	  for (var i = 0; i < currentFoods.length; i++) {
-	    if (currentFoods[i]['name'] == this.name) {
+	    if (currentFoods[i]['id'] == this.id) {
 	      currentFoods[i][attribute] = newValue;
 	    }
 	  }
 	  localStorage.setItem('foods', JSON.stringify(currentFoods));
 	};
 
-	Food.find = function (checkName) {
+	Food.prototype.turnOff = function () {
 	  var currentFoods = all();
 	  for (var i = 0; i < currentFoods.length; i++) {
-	    if (currentFoods[i]['name'] == checkName) {
-	      return new Food(currentFoods[i]['name'], currentFoods[i]['calories']);
+	    if (currentFoods[i]['id'] == this.id) {
+	      currentFoods[i]['display'] = 'off';
+	    }
+	  }
+	  localStorage.setItem('foods', JSON.stringify(currentFoods));
+	};
+
+	Food.find = function (checkId) {
+	  var currentFoods = all();
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    if (currentFoods[i]['id'] == checkId) {
+	      return new Food(currentFoods[i]['name'], currentFoods[i]['calories'], currentFoods[i]['id'], currentFoods[i]['display']);
 	    }
 	  }
 	};
@@ -10600,12 +10714,12 @@
 
 	FoodsTable.prototype.appendTo = function (foodItem) {
 	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
-	  $('#' + this.name + 's-table tr:first').after('<tr><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
+	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
 	};
 
 	FoodsTable.prototype.appendToDiary = function (foodItem) {
 	  var checkBox = '<input type="checkbox" name="breakfast" id="checkbox-id">';
-	  $('#' + this.name + 's-table tr:first').after('<tr><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
 	};
 
 	FoodsTable.prototype.filter = function () {
@@ -10626,13 +10740,13 @@
 	  }
 	};
 
-	FoodsTable.prototype.updateCell = function (cell, originalContent, newContent) {
+	FoodsTable.prototype.updateCell = function (cell, foodId, originalContent, newContent) {
 	  if (cell.hasClass('' + this.name + '-name-cell')) {
-	    var foodItem = food.find(originalContent);
+	    var foodItem = food.find(foodId);
 	    foodItem.update('name', newContent);
 	  } else if (cell.hasClass('' + this.name + '-calorie-cell')) {
 	    var foodName = cell.siblings('.' + this.name + '-name-cell').html();
-	    var foodItem = food.find(foodName);
+	    var foodItem = food.find(foodId);
 	    foodItem.update('calories', newContent);
 	  }
 	};
