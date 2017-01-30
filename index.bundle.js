@@ -157,7 +157,7 @@
 	}
 
 	function populateTotals(sum, tag) {
-	  $(`${tag} .total`).append(sum);
+	  $(`${tag} .total`).html(sum);
 	};
 
 	function sumTotals(tag) {
@@ -165,7 +165,9 @@
 	  var sum = 0;
 
 	  for (var i = 1; i < rows.length - 2; i++) {
-	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
+	    if (foodItem.display == "on") {
+	      sum += parseFloat(rows[i].childNodes[0].firstChild.data);
+	    }
 	  };
 	  populateTotals(sum, tag);
 	};
@@ -228,6 +230,11 @@
 	    });
 	    addToSnack(selected);
 	    sumTotals(tag);
+	  });
+
+	  $('.fe-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    sumTotals(`#${tag}`);
 	  });
 
 	  $('#dinners-table').on('click', '.delete-button', function () {
