@@ -54,8 +54,10 @@
 	  if (currentExercises !== null) {
 	    var currentExercisesJSON = JSON.parse(currentExercises);
 	    for (var i = 0; i < currentExercisesJSON.length; i++) {
-	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories']);
-	      exerciseTable.appendTo(exerciseItem);
+	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories'], currentExercisesJSON[i]['id'], currentExercisesJSON[i]['display']);
+	      if (exerciseItem.display == "on") {
+	        exerciseTable.appendTo(exerciseItem);
+	      }
 	    }
 	  }
 	}
@@ -73,15 +75,9 @@
 	  $('#calorie-error').removeClass('hidden');
 	}
 
-	function deleteExerciseFromStorage(name) {
-	  var currentExercises = localStorage.getItem('exercises');
-	  var currentExercisesJSON = JSON.parse(currentExercises);
-	  for (var i = 0; i < currentExercisesJSON.length; i++) {
-	    if (currentExercisesJSON[i]['name'] === name) {
-	      currentExercisesJSON.splice(i, 1);
-	    }
-	  }
-	  localStorage.setItem('exercises', JSON.stringify(currentExercisesJSON));
+	function removeExerciseFromList(exerciseId) {
+	  exerciseItem = exercise.find(exerciseId);
+	  exerciseItem.turnOff();
 	}
 
 	function removeErrors() {
@@ -102,7 +98,7 @@
 	      removeErrors();
 	      caloriesError();
 	    } else {
-	      exerciseItem = new exercise(name, calories);
+	      exerciseItem = new exercise(name, calories, exercise.nextId(), 'on');
 	      exerciseItem.store();
 	      exerciseTable.appendTo(exerciseItem);
 	      clearExerciseForm();
@@ -111,8 +107,8 @@
 	  });
 
 	  $('#exercises-table').on('click', '.delete-button', function () {
-	    var name = $(this).parent().siblings('.exercise-name-cell').html();
-	    deleteExerciseFromStorage(name);
+	    var exerciseId = $(this).parents('tr').data('exercise-id');
+	    removeExerciseFromList(exerciseId);
 	    $(this).parents('tr').remove();
 	  });
 
@@ -122,6 +118,7 @@
 
 	  $('#exercises-table').on('click', '.exercise-cell', function (e) {
 	    var cell = $(this);
+	    var exerciseId = cell.parents('tr').data('exercise-id');
 
 	    if (e.target != document.activeElement) {
 	      var originalContent = $(this).text();
@@ -136,7 +133,7 @@
 	      if (e.which == 13 || e.type == 'blur') {
 	        var newContent = $(this).val();
 	        $(this).parent().text(newContent);
-	        exerciseTable.updateCell(cell, originalContent, newContent);
+	        exerciseTable.updateCell(cell, exerciseId, originalContent, newContent);
 	      }
 	    });
 	  });
@@ -10377,32 +10374,53 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	var Exercise = function (name, calories) {
+	var Exercise = function (name, calories, id, display) {
 	  this.name = name;
 	  this.calories = calories;
+	  this.id = id;
+	  this.display = display;
+	};
+
+	Exercise.nextId = function () {
+	  var currentExercises = all();
+	  if (currentExercises.length != 0) {
+	    return currentExercises[currentExercises.length - 1]['id'] += 1;
+	  } else {
+	    return 1;
+	  }
 	};
 
 	Exercise.prototype.store = function () {
 	  var currentExercises = all();
-	  currentExercises.push({ name: this.name, calories: this.calories });
+	  currentExercises.push({ id: this.id, name: this.name, calories: this.calories, display: this.display });
 	  localStorage.setItem('exercises', JSON.stringify(currentExercises));
 	};
 
 	Exercise.prototype.update = function (attribute, newValue) {
 	  var currentExercises = all();
 	  for (var i = 0; i < currentExercises.length; i++) {
-	    if (currentExercises[i]['name'] == this.name) {
+	    if (currentExercises[i]['id'] == this.id) {
 	      currentExercises[i][attribute] = newValue;
 	    }
 	  }
 	  localStorage.setItem('exercises', JSON.stringify(currentExercises));
 	};
 
-	Exercise.find = function (checkName) {
+	Exercise.prototype.turnOff = function () {
 	  var currentExercises = all();
 	  for (var i = 0; i < currentExercises.length; i++) {
-	    if (currentExercises[i]['name'] == checkName) {
-	      return new Exercise(currentExercises[i]['name'], currentExercises[i]['calories']);
+	    if (currentExercises[i]['id'] == this.id) {
+	      currentExercises[i]['display'] = 'off';
+	    }
+	  }
+	  localStorage.setItem('exercises', JSON.stringify(currentExercises));
+	};
+
+	Exercise.find = function (checkId) {
+	  var currentExercises = all();
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    if (currentExercises[i]['id'] == checkId) {
+	      return new Exercise(currentExercises[i]['name'], currentExercises[i]['calories'], currentExercises[i]['id'], currentExercises[i]['display']);
 	    }
 	  }
 	};
@@ -10426,7 +10444,7 @@
 
 	ExerciseTable.appendTo = function (exerciseItem) {
 	  var deleteButton = '<button class="delete-button"><b>-</b></button>';
-	  $('#exercises-table tr:first').after('<tr><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
+	  $('#exercises-table tr:first').after('<tr data-exercise-id="' + exerciseItem.id + '"><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + deleteButton + '</td></tr>');
 	};
 
 	ExerciseTable.appendToDiary = function (exerciseItem) {
@@ -10470,13 +10488,13 @@
 	  }
 	};
 
-	ExerciseTable.updateCell = function (cell, originalContent, newContent) {
+	ExerciseTable.updateCell = function (cell, exerciseId, originalContent, newContent) {
 	  if (cell.hasClass('exercise-name-cell')) {
-	    var exerciseItem = exercise.find(originalContent);
+	    var exerciseItem = exercise.find(exerciseId);
 	    exerciseItem.update('name', newContent);
 	  } else if (cell.hasClass('exercise-calorie-cell')) {
 	    var exerciseName = cell.siblings('.exercise-name-cell').html();
-	    var exerciseItem = exercise.find(exerciseName);
+	    var exerciseItem = exercise.find(exerciseId);
 	    exerciseItem.update('calories', newContent);
 	  }
 	};
