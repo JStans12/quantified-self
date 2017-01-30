@@ -165,11 +165,12 @@
 	  var sum = 0;
 
 	  for (var i = 1; i < rows.length - 2; i++) {
-	    if (foodItem.display == "on") {
-	      sum += parseFloat(rows[i].childNodes[1].firstChild.data);
-	    }
+	    // if(foodItem.display == "on"){
+	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
+	    // }
 	  };
 	  populateTotals(sum, tag);
+	  populateRemainingCalories(sum, tag);
 	};
 
 	$(document).ready(function () {
