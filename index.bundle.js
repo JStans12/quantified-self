@@ -160,11 +160,20 @@
 	  $(`${tag} .total`).html(sum);
 	};
 
-	// function populateRemainingCalories(sum, tag){
-	//   var remaining = 600 - sum
-	//   if(remaining > 0)
-	//   $(`${tag} .remaining`).html(remaining)
-	// }
+	function populateRemainingCalories(sum, tag) {
+	  var element = $(`${tag} .remaining`);
+	  if (tag === '#snacks-table') {
+	    var remaining = 200 - sum;
+	  } else {
+	    var remaining = 600 - sum;
+	  };
+
+	  if (remaining < 0) {
+	    element.html(remaining).css('color', 'red');
+	  } else if (remaining > 0) {
+	    element.html(remaining).css('color', 'green');
+	  };
+	};
 
 	function sumTotals(tag) {
 	  var rows = document.querySelector(tag).getElementsByTagName('tr');
@@ -174,7 +183,7 @@
 	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
 	  };
 	  populateTotals(sum, tag);
-	  // populateRemainingCalories(sum, tag);
+	  populateRemainingCalories(sum, tag);
 	};
 
 	$(document).ready(function () {
