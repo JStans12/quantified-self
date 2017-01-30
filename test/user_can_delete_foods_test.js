@@ -44,9 +44,5 @@ test.describe('deleting foods', function(){
         assert.equal(rows.length, 1);
       });
     });
-
-    driver.executeScript('return window.localStorage["foods"]').then(function(storedFoods){
-      assert.equal(storedFoods, '[]')
-    });
   });
 });
