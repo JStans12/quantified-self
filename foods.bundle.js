@@ -10454,7 +10454,7 @@
 
 	FoodsTable.prototype.appendToDiary = function (foodItem) {
 	  var checkBox = '<input type="checkbox" name="breakfast" id="checkbox-id">';
-	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell food-cell">' + checkBox + '</td></tr>');
 	};
 
 	FoodsTable.prototype.filter = function () {

@@ -166,6 +166,14 @@ body {
   border: 1px solid black;
 }
 
+#totals-table td {
+  border: 1px solid black;
+  background-color: lightgray;
+}
+
+.totals-num {
+  width: 90px;
+}
 
 .food-cell {
   border: 1px solid black;

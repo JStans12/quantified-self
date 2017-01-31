@@ -160,19 +160,37 @@
 	  $(`${tag} .total`).html(sum);
 	};
 
-	// function populateRemainingCalories(sum, tag){
-	//   var remaining = 600 - sum
-	//   if(remaining > 0)
-	//   $(`${tag} .remaining`).html(remaining)
-	// }
+	function populateRemainingCalories(sum, tag) {
+	  var element = $(`${tag} .remaining`);
+	  if (tag === '#snacks-table') {
+	    var remaining = 200 - sum;
+	  } else if (tag === '#lunches-table') {
+	    var remaining = 600 - sum;
+	  } else if (tag === '#dinners-table') {
+	    var remaining = 800 - sum;
+	  } else if (tag === '#breakfasts-table') {
+	    var remaining = 400 - sum;
+	  }
+	  if (remaining < 0) {
+	    element.html(remaining).css('color', 'red');
+	  } else if (remaining > 0) {
+	    element.html(remaining).css('color', 'green');
+	  };
+	};
 
 	function sumTotals(tag) {
 	  var rows = document.querySelector(tag).getElementsByTagName('tr');
 	  var sum = 0;
-
-	  for (var i = 1; i < rows.length - 2; i++) {
-	    sum += parseFloat(rows[i].childNodes[1].firstChild.data);
-	  };
+	  if (tag !== '#exercises-table') {
+	    for (var i = 1; i < rows.length - 2; i++) {
+	      sum += parseFloat(rows[i].childNodes[1].firstChild.data);
+	    };
+	  } else {
+	    for (var i = 1; i < rows.length - 1; i++) {
+	      sum += parseFloat(rows[i].childNodes[1].firstChild.data);
+	    }
+	  }
+	  populateRemainingCalories(sum, tag);
 	  populateTotals(sum, tag);
 	};
 
@@ -265,16 +283,20 @@
 	  });
 
 	  $('#exercises-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
 	    var name = $(this).parent().siblings('.food-name-cell').html();
 	    $(this).parents('tr').remove();
+	    sumTotals(`#${tag}`);
 	  });
 
 	  $('#add-exercise').click(function () {
+	    var tag = "#exercises-table";
 	    var selected = [];
 	    $('#exercises-table-check tr input:checked').each(function () {
 	      selected.push($(this).parent().parents('tr').data('exercise-id'));
 	    });
 	    addToExercises(selected);
+	    sumTotals(tag);
 	  });
 
 	  $('form').submit(function (e) {
@@ -10588,7 +10610,7 @@
 
 	ExerciseTable.appendToDiary = function (exerciseItem) {
 	  var checkBox = '<input type="checkbox" name="exercise" id="checkbox-id">';
-	  $('#exercises-table-check tr:first').after('<tr data-exercise-id="' + exerciseItem.id + '"><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	  $('#exercises-table-check tr:first').after('<tr data-exercise-id="' + exerciseItem.id + '"><td class="exercise-cell exercise-name-cell">' + exerciseItem.name + '</td><td class="exercise-cell exercise-calorie-cell">' + exerciseItem.calories + '</td><td class="delete-cell food-cell">' + checkBox + '</td></tr>');
 	};
 
 	ExerciseTable.filter = function () {
@@ -10722,7 +10744,7 @@
 
 	FoodsTable.prototype.appendToDiary = function (foodItem) {
 	  var checkBox = '<input type="checkbox" name="breakfast" id="checkbox-id">';
-	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell">' + checkBox + '</td></tr>');
+	  $('#' + this.name + 's-table tr:first').after('<tr data-food-id="' + foodItem.id + '"><td class="' + this.name + '-cell ' + this.name + '-name-cell">' + foodItem.name + '</td><td class="' + this.name + '-cell ' + this.name + '-calorie-cell">' + foodItem.calories + '</td><td class="delete-cell food-cell">' + checkBox + '</td></tr>');
 	};
 
 	FoodsTable.prototype.filter = function () {
