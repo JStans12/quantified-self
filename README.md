@@ -1,83 +1,35 @@
-# Quantified Self Webpack
+# About
 
-To get you started building your Quantified Self app.
+Quantified self is the first JavaScript Application built in the Back-End Engineering program at the Turing School of Software and Design. The project has been built to the specifications provided [here](http://backend.turing.io/module4/projects/quantified-self).
+
+## Objectives
+  * Figuring out life in WebPack
+  * Walking in a Front-End Developer's shoes
+  * JQuery based State Management and DOM Traversal
+  * Conduct feature testing using Selenium
+  * Practice using the Pivotal Tracker project management tool
+
 
 ## Initial Setup
 
-One person from your project will set up the repository. That one person should follow these steps:
-
-1. Clone this starter kit repository and rename the repository to `quantified-self` in one command
-
-  ```shell
-  git clone git@github.com:turingschool-examples/quantified-self-starter-kit.git quantified-self
-  ```
-
-2. Change into the `quantified-self` directory
-
-3. Remove the default remote (origin)
-
-  ```shell
-  git remote rm origin
-  ```
-
-4. Create a new repository on GitHub named `quantified-self`
-
-5. Add your new repository remote - **your remote URL and user name will be different in the command below**
-
-  ```shell
-  git remote add origin git@github.com:neight-allen/quantified-self.git
-  ```
-
-6. Install the dependencies of the starter kit
-
-  ```shell
-  npm install
-  ```
-
-7. Add, commit, and push up to your repository
-
-  ```shell
-  git add .
-  git commit -m "Initial commit using starter kit"
-  git push origin master
-  ```
-
-8. Now add your team member(s) as collaborators to the repository. They can now clone down your `quantified-self` repository as normal.
-
-9. Once each partner clones down the repo, they need to run `npm install` to install the dependencies on their machine.
-
-## Github Pages setup
-
-1. Visit your repository on Github
-
-2. Go to Settings
-
-3. Under the Github Pages section of Options, select 'master' as your source
-
-Now when you `npm run build`, commit and push to master, you should be able to see your application at <https://your-github-username.github.io/quantified-self>.
+To get you started building your Quantified Self app, clone the repo, then:
+```
+npm install
+npm run build
+```
 
 ## Run the Server
 
-To see your code in action, you need to fire up a development server. Use the command:
-
-```shell
-npm start
-```
+use ```npm start```
 
 Once the server is running, visit in your browser:
 
 * `http://localhost:8080/webpack-dev-server/` to run your application.
 * `http://localhost:8080/webpack-dev-server/test.html` to run your test suite in the browser.
 
-To build the static files. This must be done before committing and pushing if you want your site to work at github.io:
-
-```js
-npm run build
-```
-
 ## Run Tests in the Terminal
 
-To run all of your tests:
+To run the test suite:
 
 ```js
 npm test
@@ -127,8 +79,6 @@ There are two main things to pay attention to here:
 So now we have two files that can share code between each other, but we have to pay attention to what we export and what we require. If we didn't do this, then when we try to make a new Food in the `index.js` file, it won't know what Food we're talking about!
 
 ### Test Files
-
-Near the end of game time, you will have multiple objects for your game that are tested separately with individual test files. The `test/index.js` file serves as an "entry point" for mocha to load all of the tests you write.
 
 Test file organization is a bit different from development files. If we want to test the `food.js` file from above, then this is how we would do it. For each object file (in this case `food.js`), we want to have a corresponding test file. So in the `test` directory, we would create a new file called `test/food-test.js`. Here is what that file would look like:
 
