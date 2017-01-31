@@ -10486,6 +10486,13 @@
 	  }
 	};
 
+	FoodsTable.prototype.clear = function () {
+	  var rows = $('#' + this.name + 's-table tr');
+	  for (var i = 1; i < rows.length - 2; i++) {
+	    rows[i].remove();
+	  }
+	};
+
 	module.exports = FoodsTable;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
