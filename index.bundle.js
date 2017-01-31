@@ -160,6 +160,17 @@
 	  $(`${tag} .total`).html(sum);
 	};
 
+	function totalsTable() {
+	  var breakfast = $('#breakfasts-table .total').html();
+	  var lunch = $('#lunches-table .total').html();
+	  var dinner = $('#dinners-table .total').html();
+	  var snacks = $('#snacks-table .total').html();
+	  var exercise = $('#exercises-table .total').html();
+	  var total = parseInt(breakfast) + parseInt(lunch) + parseInt(dinner) + parseInt(snacks);
+	  $('#totals-table .consumed').html(total);
+	  $('#totals-table .burned').html(exercise).css('color', 'green');
+	}
+
 	function populateRemainingCalories(sum, tag) {
 	  var element = $(`${tag} .remaining`);
 	  if (tag === '#snacks-table') {
@@ -198,6 +209,21 @@
 	  populateFoods();
 	  populateExercises();
 
+	  var day = new Date();
+	  $('#date').append(day.toISOString().slice(0, 10));
+
+	  $('#previous').click(function () {
+	    day.setDate(day.getDate() - 1);
+	    $('#date').html('');
+	    $('#date').append(day.toISOString().slice(0, 10));
+	  });
+
+	  $('#next').click(function () {
+	    day.setDate(day.getDate() + 1);
+	    $('#date').html('');
+	    $('#date').append(day.toISOString().slice(0, 10));
+	  });
+
 	  $('#create-new-food').click(function () {
 	    window.open('https://jstans12.github.io/quantified-self/foods.html');
 	  });
@@ -222,6 +248,7 @@
 	    });
 	    addToBreakfast(selected);
 	    sumTotals(tag);
+	    totalsTable(tag);
 	  });
 
 	  $('#add-lunch').click(function () {
@@ -232,6 +259,7 @@
 	    });
 	    addToLunch(selected);
 	    sumTotals(tag);
+	    totalsTable(tag);
 	  });
 
 	  $('#add-dinner').click(function () {
@@ -242,6 +270,7 @@
 	    });
 	    addToDinner(selected);
 	    sumTotals(tag);
+	    totalsTable(tag);
 	  });
 
 	  $('#add-snack').click(function () {
@@ -252,6 +281,7 @@
 	    });
 	    addToSnack(selected);
 	    sumTotals(tag);
+	    totalsTable();
 	  });
 
 	  $('#dinners-table').on('click', '.delete-button', function () {
@@ -297,6 +327,7 @@
 	    });
 	    addToExercises(selected);
 	    sumTotals(tag);
+	    totalsTable(tag);
 	  });
 
 	  $('form').submit(function (e) {
