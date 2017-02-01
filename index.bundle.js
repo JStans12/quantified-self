@@ -233,6 +233,10 @@
 	  totalsTable();
 	}
 
+	function uncheckAll() {
+	  $('input[type="checkbox"]:checked').prop('checked', false);
+	}
+
 	$(document).ready(function () {
 	  populateFoods();
 	  populateExercises();
@@ -289,6 +293,7 @@
 	    addToBreakfast(selected);
 	    sumTotals(tag);
 	    totalsTable();
+	    uncheckAll();
 	  });
 
 	  $('#add-lunch').click(function () {
