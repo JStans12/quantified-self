@@ -62,14 +62,14 @@ test.describe('adding new exercises to diary', function(){
     driver.get('http://localhost:8080')
 
     var foods = JSON.stringify([{id: "1",name:"orange",calories:"4", display:"on"},{id:"2",name:"banana",calories:"2", display:"on"},{id:"3",name:"apple",calories:"3", display:"on"}]);
-    driver.executeScript("window.localStorage.setItem('foods', '" + foods + "');");
+    driver.executeScript("window.localStorage.setItem('exercises', '" + foods + "');");
 
     driver.get('http://localhost:8080')
-    var calories = driver.findElement({id: 'foods-calories-header'});
+    var calories = driver.findElement({id: 'exercises-calories-header'});
 
-    driver.findElement({id: 'foods-table'}).then(function(table){
+    driver.findElement({id: 'exercises-table-check'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
-        rows[1].findElement(webdriver.By.className('food-calorie-cell')).getText().then(function(cals){
+        rows[1].findElement(webdriver.By.className('exercise-calorie-cell')).getText().then(function(cals){
           assert.equal(cals, '3');
         });
       });
@@ -78,9 +78,9 @@ test.describe('adding new exercises to diary', function(){
     calories.click();
     driver.sleep(3000);
 
-    driver.findElement({id: 'foods-table'}).then(function(table){
+    driver.findElement({id: 'exercises-table-check'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
-        rows[1].findElement(webdriver.By.className('food-calorie-cell')).getText().then(function(cals){
+        rows[1].findElement(webdriver.By.className('exercise-calorie-cell')).getText().then(function(cals){
           assert.equal(cals, '4');
         });
       });
@@ -89,9 +89,9 @@ test.describe('adding new exercises to diary', function(){
     calories.click();
     driver.sleep(3000);
 
-    driver.findElement({id: 'foods-table'}).then(function(table){
+    driver.findElement({id: 'exercises-table-check'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
-        rows[1].findElement(webdriver.By.className('food-calorie-cell')).getText().then(function(cals){
+        rows[1].findElement(webdriver.By.className('exercise-calorie-cell')).getText().then(function(cals){
           assert.equal(cals, '2');
         });
       });
