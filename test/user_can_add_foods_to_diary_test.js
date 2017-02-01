@@ -458,4 +458,147 @@ test.describe('adding new foods to diary', function(){
       });
     });
   });
+
+  test.it("snack table does math", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"steak",calories:"4", display:"on"},{id:"2",name:"potatos",calories:"2", display:"on"},{id:"3",name:"chicken gizzards",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToBreakfast = driver.findElement({id: 'add-breakfast'})
+    var addToDinner = driver.findElement({id: 'add-dinner'})
+    var addToLunches = driver.findElement({id: 'add-lunch'})
+    var addToSnack =  driver.findElement({id: 'add-snack'})
+
+    driver.findElement({id: 'foods-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToSnack.click();
+
+    driver.findElement({id: 'snacks-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[3].findElement(webdriver.By.className('remaining')).getText().then(function(chicken){
+          assert.equal(chicken, 196);
+        });
+      });
+    });
+  });
+  test.it("dinner table does math", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"steak",calories:"4", display:"on"},{id:"2",name:"potatos",calories:"2", display:"on"},{id:"3",name:"chicken gizzards",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToBreakfast = driver.findElement({id: 'add-breakfast'})
+    var addToDinner = driver.findElement({id: 'add-dinner'})
+    var addToLunches = driver.findElement({id: 'add-lunch'})
+    var addToSnack =  driver.findElement({id: 'add-snack'})
+
+    driver.findElement({id: 'foods-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToDinner.click();
+
+    driver.findElement({id: 'dinners-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[3].findElement(webdriver.By.className('remaining')).getText().then(function(chicken){
+          assert.equal(chicken, 796);
+        });
+      });
+    });
+  });
+
+  test.it("lunches table does math", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"steak",calories:"4", display:"on"},{id:"2",name:"potatos",calories:"2", display:"on"},{id:"3",name:"chicken gizzards",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToBreakfast = driver.findElement({id: 'add-breakfast'})
+    var addToDinner = driver.findElement({id: 'add-dinner'})
+    var addToLunches = driver.findElement({id: 'add-lunch'})
+    var addToSnack =  driver.findElement({id: 'add-snack'})
+
+    driver.findElement({id: 'foods-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToLunches.click();
+
+    driver.findElement({id: 'lunches-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[3].findElement(webdriver.By.className('remaining')).getText().then(function(chicken){
+          assert.equal(chicken, 596);
+        });
+      });
+    });
+  });
+
+  test.it("breakfast table does math", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"steak",calories:"4", display:"on"},{id:"2",name:"potatos",calories:"2", display:"on"},{id:"3",name:"chicken gizzards",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToBreakfast = driver.findElement({id: 'add-breakfast'})
+    var addToDinner = driver.findElement({id: 'add-dinner'})
+    var addToLunches = driver.findElement({id: 'add-lunch'})
+    var addToSnack =  driver.findElement({id: 'add-snack'})
+
+    driver.findElement({id: 'foods-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToBreakfast.click();
+
+    driver.findElement({id: 'breakfasts-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[3].findElement(webdriver.By.className('remaining')).getText().then(function(chicken){
+          assert.equal(chicken, 396);
+        });
+      });
+    });
+  });
 });
