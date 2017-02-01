@@ -272,9 +272,8 @@ body {
 
 .remaining {
   text-align: right;
+  color: green;
 }
-
-
 
 p {
   margin-bottom: 0px;

@@ -158,6 +158,27 @@
 	  $(`${tag} .total`).html(sum);
 	};
 
+	function totalsTable() {
+	  var breakfast = $('#breakfasts-table .total').html();
+	  var lunch = $('#lunches-table .total').html();
+	  var dinner = $('#dinners-table .total').html();
+	  var snacks = $('#snacks-table .total').html();
+	  var exercise = $('#exercises-table .total').html();
+	  var total = parseInt(breakfast) + parseInt(lunch) + parseInt(dinner) + parseInt(snacks);
+	  $('#totals-table .burned').html(exercise).css('color', 'green');
+	  $('#totals-table .consumed').html(total);
+	  remainingTotal();
+	}
+
+	function remainingTotal() {
+	  var today = parseInt($('#totals-table .goal').html()) - parseInt($('#totals-table .consumed').html()) + parseInt($('#totals-table .burned').html());
+	  if (today < 0) {
+	    $('#totals-table .remaining-cal').html(today).css('color', 'red');
+	  } else if (today > 0) {
+	    $('#totals-table .remaining-cal').html(today).css('color', 'green');
+	  };
+	}
+
 	function populateRemainingCalories(sum, tag) {
 	  var element = $(`${tag} .remaining`);
 	  if (tag === '#snacks-table') {
@@ -203,11 +224,23 @@
 	  populateDinners();
 	  populateSnacks();
 	  populateDiaryExercises();
+	  sumTotals('#breakfasts-table');
+	  sumTotals('#dinners-table');
+	  sumTotals('#lunches-table');
+	  sumTotals('#snacks-table');
+	  sumTotals('#exercises-table');
+	  populateRemainingCalories();
+	  totalsTable();
+	}
+
+	function uncheckAll() {
+	  $('input[type="checkbox"]:checked').prop('checked', false);
 	}
 
 	$(document).ready(function () {
 	  populateFoods();
 	  populateExercises();
+	  totalsTable();
 
 	  var day = new Date();
 	  var prettyDay = day.toISOString().slice(0, 10);
@@ -259,6 +292,8 @@
 	    });
 	    addToBreakfast(selected);
 	    sumTotals(tag);
+	    totalsTable();
+	    uncheckAll();
 	  });
 
 	  $('#add-lunch').click(function () {
@@ -271,6 +306,7 @@
 	    });
 	    addToLunch(selected);
 	    sumTotals(tag);
+	    totalsTable();
 	  });
 
 	  $('#add-dinner').click(function () {
@@ -283,6 +319,7 @@
 	    });
 	    addToDinner(selected);
 	    sumTotals(tag);
+	    totalsTable();
 	  });
 
 	  $('#add-snack').click(function () {
@@ -295,41 +332,7 @@
 	    });
 	    addToSnack(selected);
 	    sumTotals(tag);
-	  });
-
-	  $('#dinners-table').on('click', '.delete-button', function () {
-	    var tag = $(this).closest("table").prop('id');
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    $(this).parents('tr').remove();
-	    sumTotals(`#${tag}`);
-	  });
-
-	  $('#breakfasts-table').on('click', '.delete-button', function () {
-	    var tag = $(this).closest("table").prop('id');
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    $(this).parents('tr').remove();
-	    sumTotals(`#${tag}`);
-	  });
-
-	  $('#lunches-table').on('click', '.delete-button', function () {
-	    var tag = $(this).closest("table").prop('id');
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    $(this).parents('tr').remove();
-	    sumTotals(`#${tag}`);
-	  });
-
-	  $('#snacks-table').on('click', '.delete-button', function () {
-	    var tag = $(this).closest("table").prop('id');
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    $(this).parents('tr').remove();
-	    sumTotals(`#${tag}`);
-	  });
-
-	  $('#exercises-table').on('click', '.delete-button', function () {
-	    var tag = $(this).closest("table").prop('id');
-	    var name = $(this).parent().siblings('.food-name-cell').html();
-	    $(this).parents('tr').remove();
-	    sumTotals(`#${tag}`);
+	    totalsTable();
 	  });
 
 	  $('#add-exercise').click(function () {
@@ -342,6 +345,57 @@
 	    });
 	    addToExercises(selected);
 	    sumTotals(tag);
+	    totalsTable();
+	  });
+
+	  $('#dinners-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    var id = $(this).parent().parents('tr').data('food-id');
+	    $(this).parents('tr').remove();
+	    currentDiary.remove('dinner', id);
+	    sumTotals(`#${tag}`);
+	    totalsTable();
+	  });
+
+	  $('#breakfasts-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    var id = $(this).parent().parents('tr').data('food-id');
+	    $(this).parents('tr').remove();
+	    currentDiary.remove('breakfast', id);
+	    sumTotals(`#${tag}`);
+	    totalsTable();
+	  });
+
+	  $('#lunches-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    var id = $(this).parent().parents('tr').data('food-id');
+	    $(this).parents('tr').remove();
+	    currentDiary.remove('lunch', id);
+	    sumTotals(`#${tag}`);
+	    totalsTable();
+	  });
+
+	  $('#snacks-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    var id = $(this).parent().parents('tr').data('food-id');
+	    $(this).parents('tr').remove();
+	    currentDiary.remove('snack', id);
+	    sumTotals(`#${tag}`);
+	    totalsTable();
+	  });
+
+	  $('#exercises-table').on('click', '.delete-button', function () {
+	    var tag = $(this).closest("table").prop('id');
+	    var name = $(this).parent().siblings('.food-name-cell').html();
+	    var id = $(this).parent().parents('tr').data('exercise-id');
+	    $(this).parents('tr').remove();
+	    currentDiary.remove('exercise', id);
+	    sumTotals(`#${tag}`);
+	    totalsTable();
 	  });
 
 	  $('form').submit(function (e) {
@@ -10923,6 +10977,20 @@
 	    exercises.push(exercise.find(this.exercise[i]));
 	  }
 	  return exercises;
+	};
+
+	Diary.prototype.remove = function (meal, id) {
+	  var currentDiaries = all();
+	  for (var i = 0; i < currentDiaries.length; i++) {
+	    if (currentDiaries[i]['date'] === this.date) {
+	      for (var j = 0; j < currentDiaries[i][meal].length; j++) {
+	        if (currentDiaries[i][meal][j] == id) {
+	          currentDiaries[i][meal].splice(j, 1);
+	        }
+	      }
+	    }
+	  }
+	  localStorage.setItem('diaries', JSON.stringify(currentDiaries));
 	};
 
 	module.exports = Diary;

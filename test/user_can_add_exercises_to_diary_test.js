@@ -36,12 +36,12 @@ test.describe('adding new foods', function(){
       });
     });
 
-    driver.sleep(2000)
+    driver.sleep(2000);
     addToExercises.click();
 
     driver.findElement({id: 'exercises-table'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
-        assert.equal(rows.length, 4);
+        assert.equal(rows.length, 3);
         rows[1].findElement(webdriver.By.className('exercise-name-cell')).getText().then(function(ballingOut){
           assert.equal(ballingOut, "balling out");
         });
