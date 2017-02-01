@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 var webdriver = require('selenium-webdriver');
 var test = require('selenium-webdriver/testing');
 
-test.describe('adding new foods', function(){
+test.describe('adding new exercises to diary', function(){
   var driver;
   this.timeout(20000);
 
