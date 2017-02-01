@@ -199,4 +199,78 @@ test.describe('changing dates on the diary', function(){
       });
     });
   });
+
+  test.it("should remember yesterdays exercises", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"running",calories:"4", display:"on"},{id:"2",name:"jumping",calories:"2", display:"on"},{id:"3",name:"balling out",calories:"4", display:"on"}])
+    driver.executeScript("window.localStorage.setItem('exercises', '" + data + "');");
+
+    var date     = new Date();
+    var today          = JSON.stringify({date: date.toISOString().slice(0,10), breakfast: [], lunch: [], dinner: [], snack: [], exercise: [1]});
+    date.setDate(date.getDate() - 1);
+    var yesterday      = JSON.stringify({date: date.toISOString().slice(0,10), breakfast: [], lunch: [], dinner: [], snack: [], exercise: [2]});
+    driver.executeScript("window.localStorage.setItem('diaries', '[" + [yesterday, today] + "]');");
+
+    driver.get('http://localhost:8080');
+    var prev = driver.findElement({id: 'previous'});
+    driver.sleep(2000);
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('exercise-name-cell')).getText().then(function(ballingOut){
+          assert.equal(ballingOut, "running");
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    prev.click();
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('exercise-name-cell')).getText().then(function(ballingOut){
+          assert.equal(ballingOut, "jumping");
+        });
+      });
+    });
+  });
+
+  test.it("should remember tomorrows exercises", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"running",calories:"4", display:"on"},{id:"2",name:"jumping",calories:"2", display:"on"},{id:"3",name:"balling out",calories:"4", display:"on"}])
+    driver.executeScript("window.localStorage.setItem('exercises', '" + data + "');");
+
+    var date     = new Date();
+    var today          = JSON.stringify({date: date.toISOString().slice(0,10), breakfast: [], lunch: [], dinner: [], snack: [], exercise: [1]});
+    date.setDate(date.getDate() + 1);
+    var tomorrow      = JSON.stringify({date: date.toISOString().slice(0,10), breakfast: [], lunch: [], dinner: [], snack: [], exercise: [2]});
+    driver.executeScript("window.localStorage.setItem('diaries', '[" + [tomorrow, today] + "]');");
+
+    driver.get('http://localhost:8080');
+    var nxt = driver.findElement({id: 'next'});
+    driver.sleep(2000);
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('exercise-name-cell')).getText().then(function(ballingOut){
+          assert.equal(ballingOut, "running");
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    nxt.click();
+
+    driver.findElement({id: 'exercises-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('exercise-name-cell')).getText().then(function(ballingOut){
+          assert.equal(ballingOut, "jumping");
+        });
+      });
+    });
+  });
 });
