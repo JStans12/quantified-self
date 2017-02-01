@@ -58,28 +58,18 @@
 	var diary = __webpack_require__(6);
 	var currentDiary;
 
-	function populateFoods() {
-	  var currentFoods = localStorage.getItem('foods');
-	  if (currentFoods !== null) {
-	    var currentFoodsJSON = JSON.parse(currentFoods);
-	    for (var i = 0; i < currentFoodsJSON.length; i++) {
-	      var foodItem = new food(currentFoodsJSON[i]['name'], currentFoodsJSON[i]['calories'], currentFoodsJSON[i]['id'], currentFoodsJSON[i]['display']);
-	      if (foodItem.display == 'on') {
-	        foodsTable.appendToDiary(foodItem);
-	      }
+	function populateFoods(foods) {
+	  for (var i = 0; i < foods.length; i++) {
+	    if (foods[i].display == 'on') {
+	      foodsTable.appendToDiary(foods[i]);
 	    }
 	  }
 	}
 
-	function populateExercises() {
-	  var currentExercises = localStorage.getItem('exercises');
-	  if (currentExercises !== null) {
-	    var currentExercisesJSON = JSON.parse(currentExercises);
-	    for (var i = 0; i < currentExercisesJSON.length; i++) {
-	      var exerciseItem = new exercise(currentExercisesJSON[i]['name'], currentExercisesJSON[i]['calories'], currentExercisesJSON[i]['id'], currentExercisesJSON[i]['display']);
-	      if (exerciseItem.display == 'on') {
-	        exerciseTable.appendToDiary(exerciseItem);
-	      }
+	function populateExercises(exercises) {
+	  for (var i = 0; i < exercises.length; i++) {
+	    if (exercises[i].display == 'on') {
+	      exerciseTable.appendToDiary(exercises[i]);
 	    }
 	  }
 	}
@@ -238,8 +228,9 @@
 	}
 
 	$(document).ready(function () {
-	  populateFoods();
-	  populateExercises();
+
+	  populateFoods(food.getAll());
+	  populateExercises(exercise.getAll());
 	  totalsTable();
 
 	  var day = new Date();
@@ -307,6 +298,7 @@
 	    addToLunch(selected);
 	    sumTotals(tag);
 	    totalsTable();
+	    uncheckAll();
 	  });
 
 	  $('#add-dinner').click(function () {
@@ -320,6 +312,7 @@
 	    addToDinner(selected);
 	    sumTotals(tag);
 	    totalsTable();
+	    uncheckAll();
 	  });
 
 	  $('#add-snack').click(function () {
@@ -333,6 +326,7 @@
 	    addToSnack(selected);
 	    sumTotals(tag);
 	    totalsTable();
+	    uncheckAll();
 	  });
 
 	  $('#add-exercise').click(function () {
@@ -346,6 +340,7 @@
 	    addToExercises(selected);
 	    sumTotals(tag);
 	    totalsTable();
+	    uncheckAll();
 	  });
 
 	  $('#dinners-table').on('click', '.delete-button', function () {
@@ -396,6 +391,36 @@
 	    currentDiary.remove('exercise', id);
 	    sumTotals(`#${tag}`);
 	    totalsTable();
+	  });
+
+	  $('#exercises-calories-header').click(function () {
+	    exerciseTable.clearCheck();
+	    var order = $(this).data('order');
+	    if (order == 'normal') {
+	      $(this).data('order', 'desc');
+	      populateExercises(exercise.getDesc());
+	    } else if (order == 'desc') {
+	      $(this).data('order', 'asc');
+	      populateExercises(exercise.getAsc());
+	    } else if (order == 'asc') {
+	      $(this).data('order', 'normal');
+	      populateExercises(exercise.getAll());
+	    }
+	  });
+
+	  $('#foods-calories-header').click(function () {
+	    foodsTable.clearCheck();
+	    var order = $(this).data('order');
+	    if (order == 'normal') {
+	      $(this).data('order', 'desc');
+	      populateFoods(food.getDesc());
+	    } else if (order == 'desc') {
+	      $(this).data('order', 'asc');
+	      populateFoods(food.getAsc());
+	    } else if (order == 'asc') {
+	      $(this).data('order', 'normal');
+	      populateFoods(food.getAll());
+	    }
 	  });
 
 	  $('form').submit(function (e) {
@@ -10685,6 +10710,39 @@
 	  }
 	};
 
+	Exercise.getAll = function () {
+	  var currentExercises = all();
+	  var exercises = [];
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    exercises.push(Exercise.find(currentExercises[i]['id']));
+	  }
+	  return exercises;
+	};
+
+	Exercise.getDesc = function () {
+	  var currentExercises = all();
+	  var exercises = [];
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    exercises.push(Exercise.find(currentExercises[i]['id']));
+	  }
+	  exercises.sort(function (a, b) {
+	    return a.calories - b.calories;
+	  });
+	  return exercises;
+	};
+
+	Exercise.getAsc = function () {
+	  var currentExercises = all();
+	  var exercises = [];
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    exercises.push(Exercise.find(currentExercises[i]['id']));
+	  }
+	  exercises.sort(function (a, b) {
+	    return b.calories - a.calories;
+	  });
+	  return exercises;
+	};
+
 	function all() {
 	  var currentExercises = localStorage.getItem('exercises');
 	  if (currentExercises === null) {
@@ -10766,6 +10824,13 @@
 	  }
 	};
 
+	ExerciseTable.clearCheck = function () {
+	  var rows = $('#exercises-table-check tr');
+	  for (var i = 1; i < rows.length; i++) {
+	    rows[i].remove();
+	  }
+	};
+
 	module.exports = ExerciseTable;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -10822,6 +10887,39 @@
 	      return new Food(currentFoods[i]['name'], currentFoods[i]['calories'], currentFoods[i]['id'], currentFoods[i]['display']);
 	    }
 	  }
+	};
+
+	Food.getAll = function () {
+	  var currentFoods = all();
+	  var foods = [];
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    foods.push(Food.find(currentFoods[i]['id']));
+	  }
+	  return foods;
+	};
+
+	Food.getDesc = function () {
+	  var currentFoods = all();
+	  var foods = [];
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    foods.push(Food.find(currentFoods[i]['id']));
+	  }
+	  foods.sort(function (a, b) {
+	    return a.calories - b.calories;
+	  });
+	  return foods;
+	};
+
+	Food.getAsc = function () {
+	  var currentFoods = all();
+	  var foods = [];
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    foods.push(Food.find(currentFoods[i]['id']));
+	  }
+	  foods.sort(function (a, b) {
+	    return b.calories - a.calories;
+	  });
+	  return foods;
 	};
 
 	function all() {
@@ -10885,6 +10983,13 @@
 	FoodsTable.prototype.clear = function () {
 	  var rows = $('#' + this.name + 's-table tr');
 	  for (var i = 1; i < rows.length - 2; i++) {
+	    rows[i].remove();
+	  }
+	};
+
+	FoodsTable.prototype.clearCheck = function () {
+	  var rows = $('#' + this.name + 's-table tr');
+	  for (var i = 1; i < rows.length; i++) {
 	    rows[i].remove();
 	  }
 	};

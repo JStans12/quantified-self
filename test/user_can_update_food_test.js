@@ -16,7 +16,6 @@ test.describe('updating foods', function(){
       driver.quit();
   });
 
-  // TESTING IS FUCKING BULLSHIT
   // test.it("should allow me to update food names", function(){
   //
   //   driver.get('http://localhost:8080/foods.html')

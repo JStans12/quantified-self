@@ -10425,6 +10425,39 @@
 	  }
 	};
 
+	Exercise.getAll = function () {
+	  var currentExercises = all();
+	  var exercises = [];
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    exercises.push(Exercise.find(currentExercises[i]['id']));
+	  }
+	  return exercises;
+	};
+
+	Exercise.getDesc = function () {
+	  var currentExercises = all();
+	  var exercises = [];
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    exercises.push(Exercise.find(currentExercises[i]['id']));
+	  }
+	  exercises.sort(function (a, b) {
+	    return a.calories - b.calories;
+	  });
+	  return exercises;
+	};
+
+	Exercise.getAsc = function () {
+	  var currentExercises = all();
+	  var exercises = [];
+	  for (var i = 0; i < currentExercises.length; i++) {
+	    exercises.push(Exercise.find(currentExercises[i]['id']));
+	  }
+	  exercises.sort(function (a, b) {
+	    return b.calories - a.calories;
+	  });
+	  return exercises;
+	};
+
 	function all() {
 	  var currentExercises = localStorage.getItem('exercises');
 	  if (currentExercises === null) {
@@ -10502,6 +10535,13 @@
 	ExerciseTable.clear = function () {
 	  var rows = $('#exercises-table tr');
 	  for (var i = 1; i < rows.length - 1; i++) {
+	    rows[i].remove();
+	  }
+	};
+
+	ExerciseTable.clearCheck = function () {
+	  var rows = $('#exercises-table-check tr');
+	  for (var i = 1; i < rows.length; i++) {
 	    rows[i].remove();
 	  }
 	};

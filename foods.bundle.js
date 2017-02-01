@@ -10428,6 +10428,39 @@
 	  }
 	};
 
+	Food.getAll = function () {
+	  var currentFoods = all();
+	  var foods = [];
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    foods.push(Food.find(currentFoods[i]['id']));
+	  }
+	  return foods;
+	};
+
+	Food.getDesc = function () {
+	  var currentFoods = all();
+	  var foods = [];
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    foods.push(Food.find(currentFoods[i]['id']));
+	  }
+	  foods.sort(function (a, b) {
+	    return a.calories - b.calories;
+	  });
+	  return foods;
+	};
+
+	Food.getAsc = function () {
+	  var currentFoods = all();
+	  var foods = [];
+	  for (var i = 0; i < currentFoods.length; i++) {
+	    foods.push(Food.find(currentFoods[i]['id']));
+	  }
+	  foods.sort(function (a, b) {
+	    return b.calories - a.calories;
+	  });
+	  return foods;
+	};
+
 	function all() {
 	  var currentFoods = localStorage.getItem('foods');
 	  if (currentFoods === null) {
@@ -10489,6 +10522,13 @@
 	FoodsTable.prototype.clear = function () {
 	  var rows = $('#' + this.name + 's-table tr');
 	  for (var i = 1; i < rows.length - 2; i++) {
+	    rows[i].remove();
+	  }
+	};
+
+	FoodsTable.prototype.clearCheck = function () {
+	  var rows = $('#' + this.name + 's-table tr');
+	  for (var i = 1; i < rows.length; i++) {
 	    rows[i].remove();
 	  }
 	};
