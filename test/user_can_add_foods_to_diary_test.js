@@ -300,7 +300,7 @@ test.describe('adding new foods to diary', function(){
     });
   });
 
-  test.it("totals appear on totals table", function(){
+  test.it("goal appears on totals table", function(){
 
     driver.get('http://localhost:8080')
 
@@ -333,7 +333,7 @@ test.describe('adding new foods to diary', function(){
       });
     });
   });
-  test.it("totals appear on totals table", function(){
+  test.it("consumed appears on totals table", function(){
 
     driver.get('http://localhost:8080')
 
@@ -360,8 +360,100 @@ test.describe('adding new foods to diary', function(){
     driver.findElement({id: 'totals-table'}).then(function(table){
       table.findElements(webdriver.By.css('tr')).then(function(rows){
         assert.equal(rows.length, 4);
-        rows[0].findElement(webdriver.By.className('goal')).getText().then(function(goal){
+        rows[1].findElement(webdriver.By.className('consumed')).getText().then(function(goal){
+          assert.equal(goal, 4);
+        });
+      });
+    });
+  });
+  test.it("burned appears on totals table", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"steak",calories:"4", display:"on"},{id:"2",name:"potatos",calories:"2", display:"on"},{id:"3",name:"chicken gizzards",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToBreakfast = driver.findElement({id: 'add-breakfast'})
+
+    driver.findElement({id: 'foods-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToBreakfast.click();
+
+    var data = JSON.stringify([{id:"1",name:"running",calories:"4", display:"on"},{id:"2",name:"jumping",calories:"2", display:"on"},{id:"3",name:"balling out",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('exercises', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToExercises = driver.findElement({id: 'add-exercise'})
+
+    driver.findElement({id: 'exercises-table-check'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToExercises.click();
+
+    driver.findElement({id: 'totals-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[2].findElement(webdriver.By.className('burned')).getText().then(function(goal){
+          assert.equal(goal, 4);
+        });
+      });
+    });
+    driver.findElement({id: 'totals-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[3].findElement(webdriver.By.className('remaining-cal')).getText().then(function(goal){
           assert.equal(goal, 2000);
+        });
+      });
+    });
+  });
+  test.it("remaining-cal does math and appears on totals table", function(){
+
+    driver.get('http://localhost:8080')
+
+    var data = JSON.stringify([{id:"1",name:"steak",calories:"4", display:"on"},{id:"2",name:"potatos",calories:"2", display:"on"},{id:"3",name:"chicken gizzards",calories:"4", display:"on"}])
+
+    driver.executeScript("window.localStorage.setItem('foods', '" + data + "');");
+
+    driver.get('http://localhost:8080');
+
+    var addToBreakfast = driver.findElement({id: 'add-breakfast'})
+
+
+    driver.findElement({id: 'foods-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        rows[1].findElement(webdriver.By.className('delete-cell')).then(function(checkBox){
+          checkBox.click()
+        });
+      });
+    });
+
+    driver.sleep(2000);
+    addToBreakfast.click();
+
+    driver.findElement({id: 'totals-table'}).then(function(table){
+      table.findElements(webdriver.By.css('tr')).then(function(rows){
+        assert.equal(rows.length, 4);
+        rows[3].findElement(webdriver.By.className('remaining-cal')).getText().then(function(goal){
+          assert.equal(goal, 1996);
         });
       });
     });
